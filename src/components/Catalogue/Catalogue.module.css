@@ -1,0 +1,42 @@
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.nav {
+    margin-bottom: 20px;
+}
+.link {
+    display: inline;
+    font-size: 18px;
+    text-decoration: none;
+    margin-right: 20px;
+    color: #c3c3c3;
+    transition: 0.5s;
+    position: relative;
+}
+    .link:hover {
+        color: #5c5c5c;
+    }
+.activeLink {
+    color: #5c5c5c;
+}
+.activeLink::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0px;
+    width: 50px;
+    height: 1px;
+    background-color: black;
+    color: #5c5c5c;
+
+}
+.activeLink:nth-child(2)::after {
+        width: 100px;
+}
+.itemsWrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+

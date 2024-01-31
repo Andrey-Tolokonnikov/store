@@ -1,0 +1,29 @@
+.header {
+    height: 50px;
+    padding: 50px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    font-size: 45px;
+    letter-spacing: 10px;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+}
+
+    .icons > svg {
+        cursor: pointer;
+    }
+
+svg {
+    cursor: pointer;
+}

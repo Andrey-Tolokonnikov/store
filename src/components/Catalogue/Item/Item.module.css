@@ -1,0 +1,41 @@
+.item {
+    width: 150px;
+    height: 200px;
+    border: 1px solid black;
+    padding: 10px;
+}
+.img {
+    width: 100%;
+}
+.buyBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.cart {
+    width:30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #10025c;
+    cursor: pointer;
+}
+.quantity {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    left: 120px;
+    top: -5px;
+
+    border-radius: 50%;
+    background-color: #4579a3;
+    color: white;
+    font-size: 11px;
+}
