@@ -14,6 +14,7 @@
     color: #c3c3c3;
     transition: 0.5s;
     position: relative;
+    cursor: pointer;
 }
     .link:hover {
         color: #5c5c5c;
@@ -35,8 +36,14 @@
 .activeLink:nth-child(2)::after {
         width: 100px;
 }
+.linkContainer {
+    margin-top: 25px;
+    width: 100%;
+    text-align: center;
+}
 .itemsWrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 

@@ -15,7 +15,7 @@ export default function Item(props) {
             <div className={styles.cart}>
                 {quantity === 0 ? <FontAwesomeIcon icon={faCartPlus} /> : "+1"}
             </div>
-            <div className={styles.quantity}>{quantity}</div>
+            {quantity !== 0?<div className={styles.quantity}>{quantity}</div>:""}
         </div>
         
     </div>;

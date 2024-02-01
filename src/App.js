@@ -1,6 +1,7 @@
 import Header from './components/Header/Header';
 import Slider from './components/Slider/Slider';
 import Catalogue from './components/Catalogue/Catalogue'
+import About from './components/About/About'
 import './App.css';
 import { useState } from 'react';
 
@@ -10,7 +11,8 @@ function App() {
       <div className="App">
           <Header />
           <Slider />
-          <Catalogue/>
+          <Catalogue />
+          <About/>
           {/*<div onClick={()=>setCount(count+1)}>
               Count: {count}
           </div>

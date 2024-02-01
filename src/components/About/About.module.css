@@ -1,0 +1,25 @@
+.container {
+    width: 100%;
+    text-align: center;
+    margin-top: 25px;
+}
+.icon > svg{
+    font-size: 30px;
+}
+.title {
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 16px;
+}
+.description {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.link {
+    color: black;
+}
+.link:hover {
+    text-decoration: none;
+}

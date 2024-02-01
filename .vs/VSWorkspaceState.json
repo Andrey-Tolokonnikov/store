@@ -3,8 +3,12 @@
     "",
     "\\public",
     "\\src",
-    "\\src\\components"
+    "\\src\\components",
+    "\\src\\components\\Catalogue",
+    "\\src\\components\\Catalogue\\Item",
+    "\\src\\components\\Header",
+    "\\src\\components\\Slider"
   ],
-  "SelectedNode": "\\src\\App.js",
+  "SelectedNode": "\\src\\components\\Header\\Header.jsx",
   "PreviewInSolutionExplorer": false
 }
