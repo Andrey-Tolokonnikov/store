@@ -1,5 +1,4 @@
 import styles from './Catalogue.module.css'
-import { NavLink } from 'react-router-dom'
 import Item from './Item/Item'
 import coat from './Item/img/coat.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

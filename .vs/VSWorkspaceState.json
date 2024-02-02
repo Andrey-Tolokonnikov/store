@@ -4,11 +4,12 @@
     "\\public",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\Catalogue",
-    "\\src\\components\\Catalogue\\Item",
+    "\\src\\components\\About",
+    "\\src\\components\\Footer",
     "\\src\\components\\Header",
-    "\\src\\components\\Slider"
+    "\\src\\components\\Slider",
+    "\\src\\components\\Slider\\img"
   ],
-  "SelectedNode": "\\src\\components\\Header\\Header.jsx",
+  "SelectedNode": "\\src\\components\\Header\\Header.module.css",
   "PreviewInSolutionExplorer": false
 }
