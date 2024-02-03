@@ -20,7 +20,7 @@ export default function Catalogue(props) {
                 <a onClick={() => { setCatMode('popular') }} className={catMode === 'popular' ? [styles.activeLink, styles.link].join(" ") : styles.link}>Популярное</a>
             </div>
             <div className={styles.itemsWrapper}>
-                {goods.map(good => <Item key={good.id} title={good.title} price={good.price} img={good.img} />)}
+                {goods.map(good => <Item key={good.id} good={good} />)}
             </div>
             <div className={styles.linkContainer}><a className={styles.link}>Смотреть все <FontAwesomeIcon icon={faArrowRight} /></a></div>
         </div>
