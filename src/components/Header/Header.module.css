@@ -16,14 +16,33 @@
     position: absolute;
     left: 50%;
     transform: translate(-50%);
+    color: black;
+}
+.icons a {
+    color: black;
 }
 
 .icons {
     display: flex;
     justify-content: space-between;
     width: 150px;
+    color: black;
+    position: relative;
 }
-
+.cartSize{
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 145px;
+    top: -5px;
+}
     .icons > svg {
         cursor: pointer;
     }

@@ -1,0 +1,74 @@
+.item {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+    .item img {
+        height: 100%;
+    }
+
+.description {
+    display: flex;
+}
+.text {
+    margin-left: 20px;
+}
+.specs {
+    margin-top: 10px;
+}
+.price {
+    margin-top: 25px;
+}
+.title {
+    
+    font-size: 20px;
+}
+.actions {
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+}
+    .actions > div {
+        font-size: 20px;
+    }
+.quantity {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 300;
+    width: 120px;
+}
+    .quantity > div {
+        width: 25px;
+        height: 25px;
+        font-size: 30px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+.actions img {
+    width: 20px;
+    fill: grey;
+}
+.plus:nth-child(1) {
+    cursor: pointer;
+    margin-right: 25px;
+}
+.plus:nth-child(2) {
+    cursor: pointer;
+    margin-left: 25px;
+}
+.wrapper > svg {
+    width: 30px;
+    margin-top: 10px;
+    height: 20px;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}

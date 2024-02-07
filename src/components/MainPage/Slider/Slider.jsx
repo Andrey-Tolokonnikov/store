@@ -20,14 +20,14 @@ export default class Slider extends Component {
             this.currentIndex = (this.currentIndex + 1) % this.images.length;
             const translateValue = `translateX(calc(-44% - 40px - 665px))`;
             this.wrapper.current.style.transform = translateValue;
+            this.throttleFlag = true;
 
             setTimeout(() => {
                 this.wrapper.current.appendChild(this.wrapper.current.firstElementChild);
                 this.wrapper.current.style.transition = "0s";
                 this.wrapper.current.style.transform = `translateX( -665px)`
-            }, 1000);
-            this.throttleFlag = true;
-            setTimeout(() => { this.throttleFlag = false }, 1000)
+            }, 500)
+            setTimeout(() => { this.throttleFlag = false }, 500)
         }
     }
     render() {

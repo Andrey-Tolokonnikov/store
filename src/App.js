@@ -1,19 +1,18 @@
 import Header from './components/Header/Header';
-import Slider from './components/Slider/Slider';
-import Catalogue from './components/Catalogue/Catalogue'
-import About from './components/About/About'
 import Footer from './components/Footer/Footer'
+import MainPage from './components/MainPage/MainPage'
+import Cart from './components/Cart/Cart'
 import './App.css';
-import { useState } from 'react';
+import { Routes, Route} from 'react-router-dom'
 
 function App() {
-    let [count, setCount] = useState(1);
   return (
       <div className="App">
           <Header />
-          <Slider />
-          <Catalogue />
-          <About />
+          <Routes>
+              <Route path='/' element={<MainPage />}/>
+              <Route path='/cart' element={<Cart/>} />
+          </Routes>
           <Footer/>
           {/*<div onClick={()=>setCount(count+1)}>
               Count: {count}

@@ -1,17 +1,15 @@
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { addItem } from './../../../store/cartSlice'
+import { addItem } from './../../../../store/cartSlice'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus } from '@fortawesome/fontawesome-free-solid'
 
 import styles from './Item.module.css'
-import defImg from './img/default.png'
+import defImg from './../../../../img/default.png'
 
 
 export default function Item({good}) {
-    //let [quantity, setQuantity] = useState(0);
 
     const items = useSelector(state => state.cart.items);
     const dispatch = useDispatch();

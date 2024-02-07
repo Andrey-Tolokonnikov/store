@@ -1,15 +1,17 @@
 {
   "ExpandedNodes": [
     "",
-    "\\public",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\About",
-    "\\src\\components\\Footer",
+    "\\src\\components\\Cart",
+    "\\src\\components\\Cart\\Item",
     "\\src\\components\\Header",
-    "\\src\\components\\Slider",
-    "\\src\\components\\Slider\\img"
+    "\\src\\components\\MainPage",
+    "\\src\\components\\MainPage\\Catalogue",
+    "\\src\\components\\MainPage\\Catalogue\\Item",
+    "\\src\\components\\MainPage\\Slider",
+    "\\src\\store"
   ],
-  "SelectedNode": "\\src\\components\\Header\\Header.module.css",
+  "SelectedNode": "\\src\\components\\MainPage\\Catalogue\\Catalogue.jsx",
   "PreviewInSolutionExplorer": false
 }

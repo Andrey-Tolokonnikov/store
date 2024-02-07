@@ -19,9 +19,25 @@ const cartSlice = createSlice({
             if (!found) {
                 state.items.push([action.payload, 1]);
             }
+        },
+        removeItem: (state, action) => {
+            state.items.forEach(item => {
+                if (item[0].id === action.payload.id) {
+                    item[1] -= 1;
+                    state.items = state.items.filter(item => item[1] !== 0)
+                }
+            })
+        },
+        clearItem: (state, action) => {
+            state.items.forEach(item => {
+                if (item[0].id === action.payload.id) {
+                    item[1] = 0;
+                    state.items = state.items.filter(item => item[1] !== 0)
+                }
+            })
         }
     }
 });
 
-export const { addItem } = cartSlice.actions
+export const { addItem, removeItem, clearItem } = cartSlice.actions
 export default cartSlice.reducer

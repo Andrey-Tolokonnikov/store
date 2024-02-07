@@ -1,8 +1,7 @@
 *, *::after, *::before {
     font-size: 16px;
-    font-family: "Open sans";
+    font-family: 'Montserrat', sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
