@@ -10,7 +10,6 @@ export default function Cart(props) {
     return <div className={styles.container}>
         <div className={styles.list}>
             <p className={styles.title}>Корзина</p>
-            
             {cartItems.length!==0?cartItems.map(item => <Item key={item[0].id} good={item[0]} quantity={item[1]} />):'Ваша корзина пуста'}
         </div>
         <div className={styles.checkout}>
@@ -29,17 +28,19 @@ export default function Cart(props) {
                         Товары({cartSize})
                     </div>
                     <div>
-                        {cartPrice + ' руб.'}
+                        {cartPrice.toLocaleString() + ' руб.'}
                     </div>
                 </div>
-                <div className={styles.totalResult}>
+                <div className={styles.goodsResult}>
                     <div>
                         Итого к оплате:
                     </div>
                     <div className={styles.totalPrice}>
-                        { cartPrice + ' руб.'}
+                        { cartPrice.toLocaleString() + ' руб.'}
                     </div>
+                    
                 </div>
+                <button className={styles.checkoutButton}>Оформить заказ</button>
             </div>
         </div>
     </div>;

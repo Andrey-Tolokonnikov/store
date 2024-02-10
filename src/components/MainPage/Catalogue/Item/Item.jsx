@@ -20,7 +20,7 @@ export default function Item({good}) {
         <img alt={good.title} src={good.img ?? defImg} className={styles.img} />
         {good.title}
         <div className={styles.buyBlock}>
-            <div className={styles.price}>{good.price}</div>
+            <div className={styles.price}>{good.price.toLocaleString()}</div>
             <div className={styles.cart} onClick={() => { dispatch(addItem(good)) }}>
                 {quantity === 0 ? <FontAwesomeIcon icon={faCartPlus} /> : "+1"}
             </div>

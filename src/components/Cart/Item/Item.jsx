@@ -16,7 +16,7 @@ export default function Item(props) {
                 <div className={ styles.text}>
                     <p className={styles.title}>{props.good.title}</p>
                     <p className={styles.specs}>{props.good.specs ?? 'medium'}</p>
-                    <p className={styles.price}>{props.good.price + ' руб/шт'}</p>
+                    <p className={styles.price}>{props.good.price.toLocaleString() + ' руб/шт'}</p>
                 </div>
             </div>
             <div className={styles.wrapper}>
@@ -26,7 +26,7 @@ export default function Item(props) {
                         {props.quantity}
                         <div className={styles.plus} onClick={() => dispatch(addItem(props.good))}>+</div>
                     </div>
-                    <div className={styles.totalPrice}>{props.good.price * props.quantity + ' Р'}</div>
+                    <div className={styles.totalPrice}>{(props.good.price * props.quantity).toLocaleString() + ' Р'}</div>
                     <img src={heartIcon} ></img>
                 </div>
                 <FontAwesomeIcon icon={faTrash} onClick={() => dispatch(clearItem(props.good))} />
