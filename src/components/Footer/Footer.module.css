@@ -28,6 +28,6 @@ footer {
         cursor: pointer;
     }
 
-svg {
+.footer >svg {
     cursor: pointer;
 }

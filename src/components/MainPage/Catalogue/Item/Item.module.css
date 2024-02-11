@@ -7,9 +7,34 @@
     flex-direction: column;
     background-color: #fffbe9;
     justify-content: space-around;
+    position: relative;
 }
 .img {
     width: 100%;
+}
+.heart {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    fill: white;
+    transition: .5s;
+}
+    .heart g:hover {
+        fill: black;
+    }
+.heartActive > g{
+    fill: black;
+}
+.heart > g {
+    stroke-width: 8px;
+    stroke: black;
+    cursor: pointer;
+}
+
+.heart > rect {
+    fill: transparent;
 }
 .buyBlock {
     display: flex;

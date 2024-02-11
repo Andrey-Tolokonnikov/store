@@ -30,6 +30,7 @@
     display: flex;
     width: 300px;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
     .actions > div {
         font-size: 20px;
@@ -62,10 +63,29 @@
     cursor: pointer;
     margin-left: 25px;
 }
-.wrapper > svg {
-    width: 30px;
-    margin-top: 10px;
-    height: 20px;
+.heart {
+    width: 25px;
+    height: 25px;
+    fill: white;
+    transition: .5s;
+}
+
+    .heart g:hover {
+        fill: black;
+    }
+
+.heartActive > g {
+    fill: black;
+}
+
+.heart > g {
+    stroke-width: 8px;
+    stroke: black;
+    cursor: pointer;
+}
+
+.heart > rect {
+    fill: transparent;
 }
 .wrapper {
     display: flex;

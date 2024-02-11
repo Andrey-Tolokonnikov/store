@@ -9,8 +9,8 @@ import styles from './Header.module.css'
 //fontawesome.library.add(faBars);
 
 export default function Header(props) {
-    let cartItems = useSelector(state => state.cart.items);
-    let cartSize = cartItems.reduce((acc, item) => acc+item[1], 0);
+    let cartItems = useSelector(state => state.catalogue.items);
+    let cartSize = cartItems.reduce((acc, item) => acc+item.inCart, 0);
     return (
         <header className={styles.header}>
             <div><FontAwesomeIcon icon={faBars} size="xl" /> Menu</div>

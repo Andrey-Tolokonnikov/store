@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux'
 
 import Item from './Item/Item'
 export default function Cart(props) {
-    const cartItems = useSelector(state => state.cart.items);
-    const cartSize = cartItems.reduce((acc, item) => acc + item[1], 0);
-    const cartPrice = cartItems.reduce((acc, item) => acc + item[1]*item[0].price, 0);
+    const cartItems = useSelector(state => state.catalogue.items).filter(item=>item.inCart>0);
+    const cartSize = cartItems.reduce((acc, item) => acc + item.inCart, 0);
+    const cartPrice = cartItems.reduce((acc, item) => acc + item.price*item.inCart, 0);
 
     return <div className={styles.container}>
         <div className={styles.list}>
             <p className={styles.title}>Корзина</p>
-            {cartItems.length!==0?cartItems.map(item => <Item key={item[0].id} good={item[0]} quantity={item[1]} />):'Ваша корзина пуста'}
+            {cartItems.find(item=>item.inCart>0)?cartItems.map(item => <Item key={item.id} good={item} quantity={item.inCart} />):'Ваша корзина пуста'}
         </div>
         <div className={styles.checkout}>
             <div className={styles.promocode}>

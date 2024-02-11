@@ -48,6 +48,6 @@
         cursor: pointer;
     }
 
-svg {
+.header > svg {
     cursor: pointer;
 }
