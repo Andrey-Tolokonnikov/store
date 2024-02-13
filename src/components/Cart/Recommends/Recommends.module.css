@@ -1,0 +1,40 @@
+.container {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.sliderText {
+    display: flex;
+    justify-content: space-between;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.arrows {
+    color: grey;
+
+}
+
+    .arrows svg {
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .arrows > *:hover{
+        color: black;
+    }
+.slider {
+    width: 100%;
+    overflow-x: hidden;
+}
+    .wrapper > * {
+        flex-shrink: 0;
+        margin: 0 10px;
+        width: 23%;
+    }
+.wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    transition: .5s;
+    transform: translateX(-10px);
+}

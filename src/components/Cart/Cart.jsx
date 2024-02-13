@@ -2,12 +2,17 @@ import styles from './Cart.module.css'
 import { useSelector } from 'react-redux'
 
 import Item from './Item/Item'
+import Recommends from './Recommends/Recommends'
+
+
 export default function Cart(props) {
-    const cartItems = useSelector(state => state.catalogue.items).filter(item=>item.inCart>0);
+    const cartItems = useSelector(state => state.catalogue.items).filter(item => item.inCart > 0);
+    
     const cartSize = cartItems.reduce((acc, item) => acc + item.inCart, 0);
     const cartPrice = cartItems.reduce((acc, item) => acc + item.price*item.inCart, 0);
-
-    return <div className={styles.container}>
+    const favItems = useSelector(state => state.catalogue.items).filter(item => item.isFav);
+    return (<>
+    <div className={styles.container}>
         <div className={styles.list}>
             <p className={styles.title}>Корзина</p>
             {cartItems.find(item=>item.inCart>0)?cartItems.map(item => <Item key={item.id} good={item} quantity={item.inCart} />):'Ваша корзина пуста'}
@@ -43,5 +48,8 @@ export default function Cart(props) {
                 <button className={styles.checkoutButton}>Оформить заказ</button>
             </div>
         </div>
-    </div>;
+        </div>
+        <Recommends favItems={favItems} />
+        
+    </>)
 }

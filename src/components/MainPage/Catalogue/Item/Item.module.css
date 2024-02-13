@@ -21,9 +21,6 @@
     fill: white;
     transition: .5s;
 }
-    .heart g:hover {
-        fill: black;
-    }
 .heartActive > g{
     fill: black;
 }
@@ -60,7 +57,7 @@
     align-items: center;
 
     position: absolute;
-    left: 161px;
+    right: -10px;
     top: -10px;
 
     border-radius: 50%;

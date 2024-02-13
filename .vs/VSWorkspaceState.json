@@ -4,12 +4,11 @@
     "\\src",
     "\\src\\components",
     "\\src\\components\\Cart",
-    "\\src\\components\\Cart\\Item",
+    "\\src\\components\\Footer",
     "\\src\\components\\Header",
     "\\src\\components\\MainPage",
     "\\src\\components\\MainPage\\Catalogue",
     "\\src\\components\\MainPage\\Catalogue\\Item",
-    "\\src\\components\\MainPage\\Slider",
     "\\src\\store"
   ],
   "SelectedNode": "\\src\\components\\MainPage\\Catalogue\\Item\\Item.module.css",

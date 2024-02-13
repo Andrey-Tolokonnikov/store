@@ -70,9 +70,6 @@
     transition: .5s;
 }
 
-    .heart g:hover {
-        fill: black;
-    }
 
 .heartActive > g {
     fill: black;
