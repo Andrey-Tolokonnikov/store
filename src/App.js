@@ -1,29 +1,26 @@
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer'
-import MainPage from './components/MainPage/MainPage'
-import Cart from './components/Cart/Cart'
-import './App.css';
-import { Routes, Route} from 'react-router-dom'
+import Header from "./components/Header/Header"
+import Footer from "./components/Footer/Footer"
+import MainPage from "./components/MainPage/MainPage"
+import Cart from "./components/Cart/Cart"
+import ItemCard from "./components/ItemCard/ItemCard"
+import Auth from "./components/Profile/Auth/Auth"
+import "./App.css"
+import { Routes, Route} from "react-router-dom"
 
 function App() {
-  return (
-      <div className="App">
-          <Header />
-          <Routes>
-              <Route path='/' element={<MainPage />}/>
-              <Route path='/cart' element={<Cart/>} />
-          </Routes>
-          <Footer/>
-          {/*<div onClick={()=>setCount(count+1)}>
-              Count: {count}
-          </div>
-          <Link to="/click">Link</Link>
-          <Routes>
-              <Route path="/click" element={ <h1>hello</h1>} />
-          </Routes>*/}
+    return (
+        <div className="App">
+            <Header />
+            <Routes>
+                <Route path='/' element={<MainPage />}/>
+                <Route path='/cart' element={<Cart />} />
+                <Route path='/ItemCard/:ItemID' element={<ItemCard />} />
+                <Route path='/auth' element={<Auth />} />
+            </Routes>
+            <Footer/>
           
-    </div>
-  );
+        </div>
+    )
 }
 
-export default App;
+export default App

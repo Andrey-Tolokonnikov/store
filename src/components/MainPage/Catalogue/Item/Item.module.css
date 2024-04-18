@@ -65,3 +65,7 @@
     color: white;
     font-size: 11px;
 }
+.link {
+    text-decoration: none;
+    color: black;
+}

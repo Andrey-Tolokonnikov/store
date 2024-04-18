@@ -1,53 +1,63 @@
-import styles from './Cart.module.css'
-import { useSelector } from 'react-redux'
+import styles from "./Cart.module.css"
+import { useSelector } from "react-redux"
 
-import Item from './Item/Item'
-import Recommends from './Recommends/Recommends'
+import Item from "./Item/Item"
+import Recommends from "./Recommends/Recommends"
 
 
-export default function Cart(props) {
-    const cartItems = useSelector(state => state.catalogue.items).filter(item => item.inCart > 0);
-    
-    const cartSize = cartItems.reduce((acc, item) => acc + item.inCart, 0);
-    const cartPrice = cartItems.reduce((acc, item) => acc + item.price*item.inCart, 0);
-    const favItems = useSelector(state => state.catalogue.items).filter(item => item.isFav);
+export default function Cart() {
+    const cartItems = useSelector(state => state.profile.cart)
+    //const cartItems = useSelector(state => state.catalogue.items).filter(item => item.inCart > 0)
+    const catalogueItems = useSelector(state => state.catalogue.items)
+
+    const cartSize = cartItems.reduce((acc, item) => acc + item.num, 0)
+    const cartPrice = cartItems.reduce((acc, item) => acc + catalogueItems.find(catItem=>catItem._id===item._id).price*item.num, 0)
+
+    const favItems = useSelector(state => state.catalogue.items).filter(item => item.isFav)
     return (<>
-    <div className={styles.container}>
-        <div className={styles.list}>
-            <p className={styles.title}>Корзина</p>
-            {cartItems.find(item=>item.inCart>0)?cartItems.map(item => <Item key={item.id} good={item} quantity={item.inCart} />):'Ваша корзина пуста'}
-        </div>
-        <div className={styles.checkout}>
-            <div className={styles.promocode}>
-                <p className={styles.inputTitle}>
-                    Введите промокод
-                </p>
-                <div className={styles.inputWrapper}>
-                <input className={styles.input} placeholder='Промокод'></input>
-                    <button className={styles.confirmPromocode}></button>
-                </div>
-            </div>
-            <div className={ styles.result}>
-                <div className={styles.goodsResult}>
-                    <div>
-                        Товары({cartSize})
-                    </div>
-                    <div>
-                        {cartPrice.toLocaleString() + ' руб.'}
-                    </div>
-                </div>
-                <div className={styles.goodsResult}>
-                    <div>
-                        Итого к оплате:
-                    </div>
-                    <div className={styles.totalPrice}>
-                        { cartPrice.toLocaleString() + ' руб.'}
-                    </div>
+        <div className={styles.container}>
+            <div className={styles.list}>
+                <p className={styles.title}>Корзина</p>
+                {cartItems.length>0
+                    ?cartItems.map(
+                        item =>{
+                            const catalogueItem = catalogueItems.find(catItem=>catItem._id === item._id) 
+                            return <Item key={item._id} good={catalogueItem} quantity={cartItems.find(cartItem=>cartItem._id === item._id).num} />
+                        }
+                    )
                     
-                </div>
-                <button className={styles.checkoutButton}>Оформить заказ</button>
+                    :"Ваша корзина пуста"}
             </div>
-        </div>
+            <div className={styles.checkout}>
+                <div className={styles.promocode}>
+                    <p className={styles.inputTitle}>
+                    Введите промокод
+                    </p>
+                    <div className={styles.inputWrapper}>
+                        <input className={styles.input} placeholder='Промокод'></input>
+                        <button className={styles.confirmPromocode}></button>
+                    </div>
+                </div>
+                <div className={ styles.result}>
+                    <div className={styles.goodsResult}>
+                        <div>
+                        Товары({cartSize})
+                        </div>
+                        <div>
+                            {cartPrice.toLocaleString() + " руб."}
+                        </div>
+                    </div>
+                    <div className={styles.goodsResult}>
+                        <div>
+                        Итого к оплате:
+                        </div>
+                        <div className={styles.totalPrice}>
+                            { cartPrice.toLocaleString() + " руб."}
+                        </div>
+                    </div>
+                    <button className={styles.checkoutButton}>Оформить заказ</button>
+                </div>
+            </div>
         </div>
         <Recommends favItems={favItems} />
         

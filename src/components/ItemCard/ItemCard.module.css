@@ -1,0 +1,127 @@
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.img {
+    width: 50%;
+}
+.data {
+    width: 40%;
+}
+.itemTitle {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+.price {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.configTitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.config {
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+    width: 70px;
+    margin-bottom: 15px;
+}
+.descHeader {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid lightgrey;
+
+    padding: 20px 0 20px 0;
+    
+}
+.desc {
+    border-bottom: 1px solid lightgrey;
+    cursor: pointer;
+}
+
+.arrow {
+    transform: rotate(0);
+    transition: 0.3s linear;
+}
+.arrowUp {
+    transform: rotate(180deg);
+    transition: 0.3s linear;
+}
+.description {
+    padding: 10px;
+    transition: height 0.5s linear;
+}
+.descriptionClosed {
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    transition: height 0.5s linear;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.cart > a{
+    text-decoration: none;
+    color: black;
+}
+.fav {
+    width: 15%;
+    border: none;
+    cursor: pointer;
+    background: #f4f4f4;
+    transition: .1s linear;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.fav:hover {
+    background: #e5e5e5;
+}
+    .fav > svg {
+        width: 60%;
+        height: 60%;
+    }
+.cartActions {
+    width: 80%;
+    display: flex;
+    cursor: pointer;
+}
+.action, .cart {
+    width: 15%;
+    border: none;
+    padding: 10px 0;
+    cursor: pointer;
+    background: #f4f4f4;
+    transition: .1s linear;
+}
+    .action:hover, .cart:hover {
+        background: #e5e5e5;
+    }
+.action {
+    font-size: 35px;
+}
+.cart {
+    flex-grow: 1;
+}
+.heart > g {
+    stroke-width: 8px;
+    stroke: black;
+    cursor: pointer;
+    fill: white;
+}
+.heartActive > g {
+    fill: black;
+}
+
+
+
+.heart > rect {
+    fill: transparent;
+}
