@@ -2,12 +2,23 @@ import styles from "./Item.module.css"
 import defImg from "./../../../img/default.png"
 
 import { useDispatch } from "react-redux"
-import { addToCart, removeItem, clearItem, makeFav, unmakeFav } from "./../../../store/profileSlice"
+import { addToCart as addToCartAPI, removeOneFromCart as removeOneFromCartAPI} from "../../../APIHandlers/cartAPI"
+import {setCart, clearItem, makeFav, unmakeFav } from "./../../../store/profileSlice"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/fontawesome-free-solid"
 
 export default function Item(props) {
     let dispatch = useDispatch()
+
+    const addToCart = async function(itemId){
+        const resultCart = await addToCartAPI(itemId)
+        dispatch(setCart({cart:resultCart}))
+    }
+
+    const removeOneFromCart = async function(itemId){
+        const resultCart = await removeOneFromCartAPI(itemId)
+        dispatch(setCart({cart:resultCart}))
+    }
 
     return (
         <div className={styles.item}>
@@ -22,9 +33,9 @@ export default function Item(props) {
             <div className={styles.wrapper}>
                 <div className={styles.actions}>
                     <div className={styles.quantity}>
-                        <div className={styles.plus} onClick={() => dispatch(removeItem(props.good))}>-</div>
+                        <div className={styles.plus} onClick={() => removeOneFromCart(props.good._id)}>-</div>
                         {props.quantity}
-                        <div className={styles.plus} onClick={() => dispatch(addToCart(props.good))}>+</div>
+                        <div className={styles.plus} onClick={() => addToCart(props.good._id)}>+</div>
                     </div>
                     <div className={styles.totalPrice}>{(props.good.price * props.quantity).toLocaleString() + " Р"}</div>
                     <svg className={props.good.isFav ? [styles.heartActive, styles.heart].join(" ") : styles.heart} viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
@@ -37,8 +48,6 @@ export default function Item(props) {
                 <FontAwesomeIcon icon={faTrash} onClick={() => dispatch(clearItem(props.good))} />
             </div>
         </div>
-
     )
-
 }
 

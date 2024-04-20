@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+// import { act } from "@testing-library/react"
 
 const initialState = {
     items: []
@@ -13,6 +14,9 @@ const catalogueSlice = createSlice({
         },
         clearCatalogue: (state)=>{
             state.items = []
+        },
+        setCatalogue: (state, action)=>{
+            state.items = action.payload
         }
         // makeFav: (state, action) => {
         // 	state.items.find(item => item.id === action.payload.id).isFav = true
@@ -37,5 +41,5 @@ const catalogueSlice = createSlice({
     }
 })
 
-export const { addToCatalogue, clearCatalogue} = catalogueSlice.actions
+export const {setCatalogue, addToCatalogue, clearCatalogue} = catalogueSlice.actions
 export default catalogueSlice.reducer

@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { addToCart, makeFav, unmakeFav } from "./../../../../store/profileSlice"
+import { setCart, makeFav, unmakeFav } from "./../../../../store/profileSlice"
+import { addToCart as addToCartAPI } from "./../../../../APIHandlers/cartAPI"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCartPlus } from "@fortawesome/fontawesome-free-solid"
@@ -14,13 +15,18 @@ export default function Item({good}) {
     const items = useSelector(state => state.profile.cart)
     const dispatch = useDispatch()
 
+    const addToCart = async function(itemId){
+        const resultCart = await addToCartAPI(itemId)
+        dispatch(setCart({cart:resultCart}))
+    }
+    
     let quantity = items.find(item => item._id === good._id)?.num ?? 0
     return <div className={styles.item}>
         <img alt={good.title} src={good.img ?? defImg} className={styles.img} />
         <Link className={styles.link} to={`/ItemCard/${good.id}`}>{good.title}</Link>
         <div className={styles.buyBlock}>
             <div className={styles.price}>{good.price.toLocaleString()}</div>
-            <div className={styles.cart} onClick={() => { dispatch(addToCart(good)) }}>
+            <div className={styles.cart} onClick={() => { addToCart(good._id)}}>
                 {quantity === 0 ? <FontAwesomeIcon icon={faCartPlus} /> : "+1"}
             </div>
             {quantity !== 0 ? <div className={styles.quantity}>{quantity}</div> : ""}

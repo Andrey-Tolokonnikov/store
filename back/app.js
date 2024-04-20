@@ -2,28 +2,40 @@ const express = require("express")
 const mongo = require("./mongo.js")
 const cookie = require("cookie-parser")
 const cors = require("cors")
+const jwt = require("jsonwebtoken")
+const {authFilter} = require("./authFilter.js")
 const bodyParser = require("body-parser")
+require("dotenv").config()
 
 const app = express()
-const port = 3001
-const url = "mongodb://127.0.0.1:27017/"
 
-let DAO = new mongo(url)
+let DAO = new mongo(process.env.DB_URL)
 
-app.use(cors({origin: "http://localhost:3000",
+app.use(cors({origin: process.env.CLIENT_URL,
 	credentials: true}))
-app.use(cookie("hello"))
+
+app.use(cookie())
 app.use(bodyParser.json())
-app.use(express.static("public"))
+app.use(express.static(process.env.PUBLIC_DIR))
+app.use(authFilter)
+
 
 
 app.post("/auth", async(req, res)=>{
 	const user = await DAO.getUser(req.body.login, req.body.password)
-	if(user.length == 0){
+	if(!user){
 		res.sendStatus(403)
-	}else{
-		res.cookie("token","tokenValue")
-		res.json(user[0])
+	}
+	else{
+		res.cookie(process.env.TOKEN_NAME, 
+			jwt.sign({login: user.login},
+				process.env.TOKEN_SECRET, 
+				{
+					expiresIn: 60 * 60 * 24, 
+					algorithm: process.env.TOKEN_ALGORITHM
+				}
+			))
+		res.json(user)
 	}
 })
 
@@ -36,19 +48,13 @@ app.put("/cart", async (req, res)=>{
 	const itemID = req.body._id
 	const addMode = req.body.toAdd
 	if(addMode){
-		await DAO.addToCart("login1", itemID)
+		await DAO.addToCart(req.body.user.login, itemID)
 	}else{
-		await DAO.removeOneFromCart("login1", itemID)
+		await DAO.removeOneFromCart(req.body.user.login, itemID)
 	}
-	res.sendStatus(200)
+	const cart = await DAO.getCart(req.body.user.login)
+	res.json(cart)
 })
-app.put("/cart", async (req, res)=>{
-	const itemID = req.body._id
-	const result = await DAO.addToCart("login1", itemID)
-	console.log(result)
-	res.json(result)
-})
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
 	DAO.connect()
-	console.log(`Example app listening on port ${port}`)
 })

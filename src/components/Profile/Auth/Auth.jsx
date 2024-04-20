@@ -34,9 +34,9 @@ export default function Auth() {
                 dispatch(setName(res.name))
                 res.cart.forEach(item=>dispatch(addToCart(item)))
             })
-            .catch(error=>{
-                setErrorText(error)
-            })
+            //.catch(error=>{
+        //setErrorText(error)
+            // })
     }
 
     return (

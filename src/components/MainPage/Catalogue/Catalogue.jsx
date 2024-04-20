@@ -4,29 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/fontawesome-free-solid"
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { addToCatalogue, clearCatalogue} from "./../../../store/catalogueSlice"
+import { getCatalogue as getCatalogueAPI } from "../../../APIHandlers/catalogueAPI"
+import { setCatalogue} from "./../../../store/catalogueSlice"
 
 export default function Catalogue() {
     let goods = useSelector(state => state.catalogue.items)
     let [catMode, setCatMode] = useState("promo")
     const dispatch = useDispatch()
+    
     useEffect(() => {
-        fetch("http://localhost:3001/catalogue", {
-            credentials: "include"
-        }).then(res => res.json()).then(res => {
-            dispatch(clearCatalogue())
-            res.forEach(item => {
-                let tmp = {
-                    img: null,
-                    title: "No title",
-                    config: "simple",
-                    price: 0,
-                    isFav: false,
-                    ...item
-                }
-                dispatch(addToCatalogue(tmp))
-            })
-        })
+        async function getCatalogueUseEffect(){
+            const catalogue = await getCatalogueAPI()
+            dispatch(setCatalogue(catalogue))
+        }
+        getCatalogueUseEffect()
     }, [])
 
     return (

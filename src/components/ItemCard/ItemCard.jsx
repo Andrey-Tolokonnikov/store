@@ -2,7 +2,9 @@ import styles from "./ItemCard.module.css"
 
 import defImg from "./../../img/default.png"
 import { useState } from "react"
-import { addToCart, removeItem, makeFav, unmakeFav } from "./../../store/profileSlice"
+import {makeFav, unmakeFav } from "./../../store/profileSlice"
+import {setCart} from "./../../store/profileSlice"
+import {addToCart as addToCartAPI, removeOneFromCart as removeOneFromCartAPI} from "./../../APIHandlers/cartAPI"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams, Link} from "react-router-dom"
@@ -18,6 +20,16 @@ export default function ItemCard() {
 
     let [isDescOpen, setIsDescOpen] = useState(false)
     const dispatch = useDispatch()
+
+    const addToCart = async function(itemId){
+        const resultCart = await addToCartAPI(itemId)
+        dispatch(setCart({cart:resultCart}))
+    }
+
+    const removeOneFromCart = async function(itemId){
+        const resultCart = await removeOneFromCartAPI(itemId)
+        dispatch(setCart({cart:resultCart}))
+    }
     return (
         <div className={styles.container}>
             <img className={styles.img} src={item.img ?? defImg} />
@@ -29,11 +41,11 @@ export default function ItemCard() {
                 <div className={styles.cartInfo}></div>
                 <div className={styles.actions}>
                     <div className={styles.cartActions}>
-                        <button className={styles.action} onClick={() => dispatch(removeItem(item))}>-</button>
+                        <button className={styles.action} onClick={() => removeOneFromCart(item._id)}>-</button>
                         
                         <button className={styles.cart}><Link to="/cart">В корзине {quantity} шт <br />Перейти</Link></button>
                         
-                        <button className={styles.action} onClick={() =>dispatch(addToCart(item))}>+</button>
+                        <button className={styles.action} onClick={() =>addToCart(item._id)}>+</button>
                     </div>
                     <div className={styles.fav} onClick={() => { item.isFav ? dispatch(unmakeFav(item)) : dispatch(makeFav(item)) }}>
                         <svg className={item.isFav ? [styles.heartActive, styles.heart].join(" ") : styles.heart} viewBox="0 0 300 300">
