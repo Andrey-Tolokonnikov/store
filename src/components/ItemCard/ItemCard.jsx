@@ -2,9 +2,9 @@ import styles from "./ItemCard.module.css"
 
 import defImg from "./../../img/default.png"
 import { useState } from "react"
-import {makeFav, unmakeFav } from "./../../store/profileSlice"
-import {setCart} from "./../../store/profileSlice"
-import {addToCart as addToCartAPI, removeOneFromCart as removeOneFromCartAPI} from "./../../APIHandlers/cartAPI"
+import {setCart, setFavs} from "../../store/ProfileSlice"
+import {addToCart as addToCartAPI, removeOneFromCart as removeOneFromCartAPI} from "./../../APIHandlers/CartAPI"
+import { addToFavs as addToFavsAPI, removeFromFavs as removeFromFavsAPI } from "./../../APIHandlers/FavsAPI"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams, Link} from "react-router-dom"
@@ -13,6 +13,7 @@ export default function ItemCard() {
     const params = useParams()
     const catalogue = useSelector(state => state.catalogue.items)
     const cart = useSelector(state => state.profile.cart)
+    const favs = useSelector(state=>state.profile.favs)
 
     const item = catalogue.find(item => item.id == params.ItemID)
 
@@ -29,6 +30,15 @@ export default function ItemCard() {
     const removeOneFromCart = async function(itemId){
         const resultCart = await removeOneFromCartAPI(itemId)
         dispatch(setCart({cart:resultCart}))
+    }
+
+    const addToFavs = async function(itemId){
+        const resultFavs = await addToFavsAPI(itemId)
+        dispatch(setFavs(resultFavs))
+    }
+    const removeFromFavs = async function(itemId){
+        const resultFavs = await removeFromFavsAPI(itemId)
+        dispatch(setFavs(resultFavs))
     }
     return (
         <div className={styles.container}>
@@ -47,8 +57,8 @@ export default function ItemCard() {
                         
                         <button className={styles.action} onClick={() =>addToCart(item._id)}>+</button>
                     </div>
-                    <div className={styles.fav} onClick={() => { item.isFav ? dispatch(unmakeFav(item)) : dispatch(makeFav(item)) }}>
-                        <svg className={item.isFav ? [styles.heartActive, styles.heart].join(" ") : styles.heart} viewBox="0 0 300 300">
+                    <div className={styles.fav} onClick={() => { !favs.includes(item._id) ? addToFavs(item._id) : removeFromFavs(item._id) }}>
+                        <svg className={favs.includes(item._id) ? [styles.heartActive, styles.heart].join(" ") : styles.heart} viewBox="0 0 300 300">
                             <rect width="100%" height="100%" />
                             <g >
                                 <path d="m148.39 77.188c57.59-165.22 283.23 0 0 212.42-283.23-212.42-57.59-377.64 0-212.42z" />

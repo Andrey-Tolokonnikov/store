@@ -7,13 +7,13 @@ import Recommends from "./Recommends/Recommends"
 
 export default function Cart() {
     const cartItems = useSelector(state => state.profile.cart)
-    //const cartItems = useSelector(state => state.catalogue.items).filter(item => item.inCart > 0)
     const catalogueItems = useSelector(state => state.catalogue.items)
 
     const cartSize = cartItems.reduce((acc, item) => acc + item.num, 0)
     const cartPrice = cartItems.reduce((acc, item) => acc + catalogueItems.find(catItem=>catItem._id===item._id).price*item.num, 0)
 
-    const favItems = useSelector(state => state.catalogue.items).filter(item => item.isFav)
+    const favs = useSelector(state => state.profile.favs)
+    const favItems = catalogueItems.filter(item=>favs.includes(item._id))
     return (<>
         <div className={styles.container}>
             <div className={styles.list}>

@@ -26,6 +26,9 @@ const profileSlice = createSlice({
         setCart(state, action){
             state.cart = action.payload.cart
         },
+        setFavs(state, action){
+            state.favs = action.payload 
+        },
         setName: (state, action)=>{
             state.name = action.payload
         },
@@ -56,5 +59,5 @@ const profileSlice = createSlice({
     }
 })
 
-export const { setCart, addToCart,setName, setLoginState, removeItem, clearItem, makeFav, unmakeFav } = profileSlice.actions
+export const { setCart,setFavs, addToCart,setName, setLoginState, removeItem, clearItem, makeFav, unmakeFav } = profileSlice.actions
 export default profileSlice.reducer

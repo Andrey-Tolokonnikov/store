@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight } from "@fortawesome/fontawesome-free-solid"
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { getCatalogue as getCatalogueAPI } from "../../../APIHandlers/catalogueAPI"
-import { setCatalogue} from "./../../../store/catalogueSlice"
+import { getCatalogue as getCatalogueAPI } from "./../../../APIHandlers/CatalogueAPI"
+import { setCatalogue} from "../../../store/CatalogueSlice"
 
 export default function Catalogue() {
     let goods = useSelector(state => state.catalogue.items)

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBars, faSearch, faUser, faChartBar, faCartArrowDown } from "@fortawesome/fontawesome-free-solid"
+import { faBars, faSearch, faUser, faChartBar, faCartArrowDown, faUsers } from "@fortawesome/fontawesome-free-solid"
 
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
@@ -18,6 +18,9 @@ export default function Header() {
                 <div className={styles.logo}>Store</div>
             </Link>
             <div className={styles.icons}>
+            <Link to="users">
+                    <FontAwesomeIcon icon={faUsers} size="xl" />
+                </Link>
                 <FontAwesomeIcon icon={faSearch} size="xl" />
                 <Link to="auth">
                     <FontAwesomeIcon icon={faUser} size="xl" />
@@ -27,6 +30,7 @@ export default function Header() {
                 <Link to="cart">
                     <FontAwesomeIcon icon={faCartArrowDown} size="xl" />
                 </Link>
+                
                 {cartSize>0?<div className={styles.cartSize}>{cartSize}</div>:""}
             </div>
         </header>)

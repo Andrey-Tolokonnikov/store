@@ -2,7 +2,7 @@ import styles from "./Auth.module.css"
 import {useState} from "react"
 import {useDispatch } from "react-redux"
 
-import { setName, setLoginState, addToCart } from "../../../store/profileSlice"
+import { setName, setLoginState, addToCart } from "../../../store/ProfileSlice"
 export default function Auth() {
 
     let [login, setLogin] = useState("")

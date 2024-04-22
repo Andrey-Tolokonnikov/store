@@ -1,5 +1,5 @@
-export async function addToCart(itemId){
-    return await fetch("http://localhost:3001/cart", 
+export async function addToFavs(itemId){
+    return await fetch("http://localhost:3001/favs", 
         {   method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -17,8 +17,8 @@ export async function addToCart(itemId){
         }
     })
 }
-export async function removeOneFromCart(itemId){
-    return await fetch("http://localhost:3001/cart", 
+export async function removeFromFavs(itemId){
+    return await fetch("http://localhost:3001/favs", 
         {   method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -36,4 +36,3 @@ export async function removeOneFromCart(itemId){
         }
     })
 }
-

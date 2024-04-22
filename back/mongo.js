@@ -31,6 +31,30 @@ module.exports = class DAO{
 		const user = await collection.findOne({login: login})
 		return user.cart
 	}
+	async getFavs(login){
+		const collection = this.db.collection("users")
+		const user = await collection.findOne({login: login})
+		return user.favorites??[]
+	}
+	async getUsers(){
+		//const collection = this.db.collection("users")
+		//let users = await collection.find({login: "login1"})
+		// users = users.map(user=>(
+		// 	{login: user.login,
+		// 		name: user.name,
+		// 		role: user.role}
+		// ))
+		const collection = this.db.collection("users")
+		let users = await collection.find().toArray()
+		
+		users = users.map(user=>(
+			{login: user.login,
+				_id: user._id,
+				name: user.name,
+				role: user.role}
+		))
+		return users??[]
+	}
 
 	async addToCart(userLogin, itemID){
 		const collection = this.db.collection("users")
@@ -70,4 +94,40 @@ module.exports = class DAO{
 			user)
 		return result
 	}
+	async addToFavs(userLogin, itemID){
+		const collection = this.db.collection("users")
+		const objId = ObjectId.createFromHexString(itemID)
+
+		const user = await collection.findOne({login: userLogin})
+		const favs = user.favorites??[]
+
+		let isItemInFavs = false
+		favs.forEach(item=>{
+			if(objId.equals(item)){
+				isItemInFavs = true
+			}
+		})
+		if(!isItemInFavs){
+			favs.push(objId)
+		}
+		user.favorites = favs
+		const result = await collection.replaceOne({login: userLogin}, 
+			user)
+		return result
+	}
+
+	async removeFromFavs(userLogin, itemID){
+		const collection = this.db.collection("users")
+		const objId = ObjectId.createFromHexString(itemID)
+
+		const user = await collection.findOne({login: userLogin})
+		const favs = user.favorites??[]
+		console.log(favs)
+		user.favorites = favs.filter(item=>!objId.equals(item))
+		console.log(user.favorites)
+		const result = await collection.replaceOne({login: userLogin}, 
+			user)
+		return result
+	}
+
 }

@@ -1,0 +1,16 @@
+.wrapper{
+    display: flex;
+    border: 2px solid black;
+    border-radius: 3px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.name{
+    font-weight: bold;
+    font-size: 20px;
+}
+.avatar{
+    height: 70px;
+    width: 70px;
+    margin-right: 30px;
+}

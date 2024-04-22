@@ -3,7 +3,8 @@ const mongo = require("./mongo.js")
 const cookie = require("cookie-parser")
 const cors = require("cors")
 const jwt = require("jsonwebtoken")
-const {authFilter} = require("./authFilter.js")
+const {authFilter} = require("./filters/authFilter.js")
+const {adminFilter} = require("./filters/adminFilter.js")
 const bodyParser = require("body-parser")
 require("dotenv").config()
 
@@ -28,14 +29,26 @@ app.post("/auth", async(req, res)=>{
 	}
 	else{
 		res.cookie(process.env.TOKEN_NAME, 
-			jwt.sign({login: user.login},
-				process.env.TOKEN_SECRET, 
-				{
-					expiresIn: 60 * 60 * 24, 
-					algorithm: process.env.TOKEN_ALGORITHM
-				}
+			jwt.sign({
+				login: user.login, 
+				role: user.role
+			},
+
+			process.env.TOKEN_SECRET, 
+			
+			{
+				expiresIn: 60 * 60 * 24, 
+				algorithm: process.env.TOKEN_ALGORITHM
+			}
 			))
-		res.json(user)
+		res.json({
+			login: user.login,
+			_id: user._id,
+			name: user.name,
+			role: user.role,
+			cart: user.cart,
+			favorites: user.favorites
+		})
 	}
 })
 
@@ -55,6 +68,24 @@ app.put("/cart", async (req, res)=>{
 	const cart = await DAO.getCart(req.body.user.login)
 	res.json(cart)
 })
+
+app.put("/favs", async (req, res)=>{
+	const itemID = req.body._id
+	const addMode = req.body.toAdd
+	if(addMode){
+		await DAO.addToFavs(req.body.user.login, itemID)
+	}else{
+		await DAO.removeFromFavs(req.body.user.login, itemID)
+	}
+	const favs = await DAO.getFavs(req.body.user.login)
+	res.json(favs)
+})
+
+app.get("/users", adminFilter, async(req, res)=>{
+	const users = await DAO.getUsers()
+	res.json(users)
+})
+
 app.listen(process.env.PORT, () => {
 	DAO.connect()
 })

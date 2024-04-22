@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 
 exports.authFilter = function(req, res, next){
-	if(["/auth"].includes(req.path)){
+	if(["/catalogue", "/auth"].includes(req.path)){
 		next()
 		return
 	}
@@ -9,8 +9,9 @@ exports.authFilter = function(req, res, next){
 	try{
 		const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
 		req.body.user = decoded
+		
 	} catch(err){
-		res.sendStatus(403)
+		res.sendStatus(401)
 		return
 	}
 	next()
