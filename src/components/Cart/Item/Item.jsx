@@ -7,28 +7,39 @@ import {setCart, clearItem, setFavs } from "../../../store/ProfileSlice"
 import { addToFavs as addToFavsAPI, removeFromFavs as removeFromFavsAPI } from "../../../APIHandlers/FavsAPI"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/fontawesome-free-solid"
+import { useNavigate } from "react-router-dom"
 
 export default function Item(props) {
-    let dispatch = useDispatch()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const favs = useSelector(state => state.profile.favs)
 
     const addToCart = async function(itemId){
-        const resultCart = await addToCartAPI(itemId)
-        dispatch(setCart({cart:resultCart}))
+        const resultCart = await addToCartAPI(itemId, navigate)
+        if(resultCart != null){
+            dispatch(setCart({cart:resultCart}))
+        }
     }
 
     const removeOneFromCart = async function(itemId){
-        const resultCart = await removeOneFromCartAPI(itemId)
-        dispatch(setCart({cart:resultCart}))
+        const resultCart = await removeOneFromCartAPI(itemId, navigate)
+        if(resultCart != null){
+            dispatch(setCart({cart:resultCart}))
+        }
     }
 
     const addToFavs = async function(itemId){
-        const resultFavs = await addToFavsAPI(itemId)
-        dispatch(setFavs(resultFavs))
+        const resultFavs = await addToFavsAPI(itemId, navigate)
+        if(resultFavs != null){
+            dispatch(setFavs(resultFavs))
+        }
     }
     const removeFromFavs = async function(itemId){
-        const resultFavs = await removeFromFavsAPI(itemId)
-        dispatch(setFavs(resultFavs))
+        const resultFavs = await removeFromFavsAPI(itemId, navigate)
+        if(resultFavs != null){
+            dispatch(setFavs(resultFavs))
+        }
     }
 
     return (

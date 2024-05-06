@@ -25,6 +25,9 @@ app.use(authFilter)
 app.post("/auth", async(req, res)=>{
 	const user = await DAO.getUser(req.body.login, req.body.password)
 	if(!user){
+		res.sendStatus(401)
+	}
+	if(user.isBlocked){
 		res.sendStatus(403)
 	}
 	else{
@@ -57,6 +60,13 @@ app.get("/catalogue", async (req, res)=>{
 	res.json(catalogue)
 })
 
+app.put("/catalogue", async (req, res)=>{
+	const editedItem = req.body.item
+	await DAO.updateCatalogue(editedItem)
+	const result = await DAO.getCatalogue()
+	res.json(result)
+})
+
 app.put("/cart", async (req, res)=>{
 	const itemID = req.body._id
 	const addMode = req.body.toAdd
@@ -84,6 +94,38 @@ app.put("/favs", async (req, res)=>{
 app.get("/users", adminFilter, async(req, res)=>{
 	const users = await DAO.getUsers()
 	res.json(users)
+})
+
+app.put("/users", adminFilter, async (req, res)=>{
+	const userID = req.body._id
+	const action = req.body.action
+	switch(action){
+	case "block":{
+		const blockMode = req.body.toBlock
+		await DAO.setUserBlocked(userID, blockMode)
+		const users = await DAO.getUsers()
+		res.json(users)
+		break
+	} 
+	case "role":{
+		const roleToSet = req.body.role
+		if(!["admin", "moder", "user"].includes(roleToSet)){
+			res.sendStatus(406)
+			return
+		}
+		await DAO.setUserRole(userID, roleToSet)
+		const users = await DAO.getUsers()
+		res.json(users)
+		break
+	}
+	}
+	
+})
+
+app.get("/users/me", async (req, res)=>{
+	const login = req.body.user.login
+	const user = await DAO.getUserByLogin(login)
+	res.json(user)
 })
 
 app.listen(process.env.PORT, () => {

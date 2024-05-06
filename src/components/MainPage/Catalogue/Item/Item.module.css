@@ -1,17 +1,19 @@
 .item {
     width: 190px;
     height: 250px;
-    padding: 0 10px;
+    padding: 0 15px;
     margin: 5px;
     display: flex;
     flex-direction: column;
-    background-color: #fffbe9;
     justify-content: space-around;
     position: relative;
+    border: 2px solid black;
+    border-radius: 3px;
 }
 .img {
     width: 100%;
 }
+
 .heart {
     width: 45px;
     height: 45px;

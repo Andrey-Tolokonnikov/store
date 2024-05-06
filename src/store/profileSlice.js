@@ -35,6 +35,9 @@ const profileSlice = createSlice({
         setLoginState: (state, action)=>{
             state.login = action.payload
         },
+        setRole: (state, action)=>{
+            state.role = action.payload
+        },
         makeFav: (state, action) => {
             state.favs.push(action.payload._id)
         },
@@ -59,5 +62,5 @@ const profileSlice = createSlice({
     }
 })
 
-export const { setCart,setFavs, addToCart,setName, setLoginState, removeItem, clearItem, makeFav, unmakeFav } = profileSlice.actions
+export const { setCart,setFavs, setRole, addToCart,setName, setLoginState, removeItem, clearItem, makeFav, unmakeFav } = profileSlice.actions
 export default profileSlice.reducer

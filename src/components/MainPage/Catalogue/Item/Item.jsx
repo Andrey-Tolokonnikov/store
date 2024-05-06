@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { setCart, setFavs } from "../../../../store/ProfileSlice"
 import { addToCart as addToCartAPI } from "../../../../APIHandlers/CartAPI"
 import { addToFavs as addToFavsAPI, removeFromFavs as removeFromFavsAPI } from "../../../../APIHandlers/FavsAPI"
@@ -15,20 +15,26 @@ export default function Item({good}) {
 
     const items = useSelector(state => state.profile.cart)
     const favs = useSelector(state => state.profile.favs)
-    
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const addToCart = async function(itemId){
-        const resultCart = await addToCartAPI(itemId)
-        dispatch(setCart({cart:resultCart}))
+        const resultCart = await addToCartAPI(itemId, navigate)
+        if(resultCart != null){
+            dispatch(setCart({cart:resultCart}))
+        }
     }
     const addToFavs = async function(itemId){
-        const resultFavs = await addToFavsAPI(itemId)
-        dispatch(setFavs(resultFavs))
+        const resultFavs = await addToFavsAPI(itemId, navigate)
+        if(resultFavs != null){
+            dispatch(setFavs(resultFavs)) 
+        }
     }
     const removeFromFavs = async function(itemId){
-        const resultFavs = await removeFromFavsAPI(itemId)
-        dispatch(setFavs(resultFavs))
+        const resultFavs = await removeFromFavsAPI(itemId, navigate)
+        if(resultFavs != null){
+            dispatch(setFavs(resultFavs)) 
+        }
     }
     
     let quantity = items.find(item => item._id === good._id)?.num ?? 0

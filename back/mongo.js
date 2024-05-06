@@ -19,6 +19,19 @@ module.exports = class DAO{
 		const result = await collection.find({}).toArray()
 		return result
 	}
+
+	async updateCatalogue(editedItem){
+		const collection = this.db.collection("catalogue")
+		const result = await collection.updateOne(
+			{_id: ObjectId.createFromHexString(editedItem._id)},
+			{$set: { 
+				title: editedItem.title,
+				config: editedItem.config,
+				price: editedItem.price,
+				desc: editedItem.desc
+			}})
+		return result
+	}
 	
 	async getUser(login, password){
 		const collection = this.db.collection("users")
@@ -37,13 +50,6 @@ module.exports = class DAO{
 		return user.favorites??[]
 	}
 	async getUsers(){
-		//const collection = this.db.collection("users")
-		//let users = await collection.find({login: "login1"})
-		// users = users.map(user=>(
-		// 	{login: user.login,
-		// 		name: user.name,
-		// 		role: user.role}
-		// ))
 		const collection = this.db.collection("users")
 		let users = await collection.find().toArray()
 		
@@ -51,10 +57,39 @@ module.exports = class DAO{
 			{login: user.login,
 				_id: user._id,
 				name: user.name,
-				role: user.role}
+				role: user.role,
+				isBlocked: user.isBlocked}
 		))
 		return users??[]
 	}
+	async getUserByLogin(login){
+		const collection = this.db.collection("users")
+		const user = await collection.findOne({login: login})
+		return (
+			{login: user.login,
+				_id: user._id,
+				name: user.name,
+				role: user.role,
+				isBlocked: user.isBlocked,
+				cart: user.cart,
+				favs: user.favorites}
+		)
+	}
+
+	async setUserBlocked(userID, toBlock){
+		const collection = this.db.collection("users")
+		const objID = ObjectId.createFromHexString(userID)
+		const result = await collection.updateOne({_id: objID}, {$set: {isBlocked: toBlock}})
+		return result
+	}
+
+	async setUserRole(userID, role){
+		const collection = this.db.collection("users")
+		const objID = ObjectId.createFromHexString(userID)
+		const result = await collection.updateOne({_id: objID}, {$set: {role: role}})
+		return result
+	}
+
 
 	async addToCart(userLogin, itemID){
 		const collection = this.db.collection("users")
@@ -122,9 +157,7 @@ module.exports = class DAO{
 
 		const user = await collection.findOne({login: userLogin})
 		const favs = user.favorites??[]
-		console.log(favs)
 		user.favorites = favs.filter(item=>!objId.equals(item))
-		console.log(user.favorites)
 		const result = await collection.replaceOne({login: userLogin}, 
 			user)
 		return result

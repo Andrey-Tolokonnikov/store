@@ -1,38 +1,23 @@
-export async function addToFavs(itemId){
-    return await fetch("http://localhost:3001/favs", 
-        {   method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                _id: itemId,
-                toAdd: true,
-            }),
-            credentials: "include"
-        }).then(res=>{
-        if(res.status === 401){
-            throw "Not authorized"
-        }else{
-            return res.json()
-        }
-    })
+import { customFetch } from "./Utils"
+export async function addToFavs(itemId, navigate){
+    return await customFetch(
+        "http://localhost:3001/favs", 
+        "PUT",
+        {
+            _id: itemId,
+            toAdd: true,
+        },
+        navigate
+    )
 }
-export async function removeFromFavs(itemId){
-    return await fetch("http://localhost:3001/favs", 
-        {   method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                _id: itemId,
-                toAdd: false
-            }),
-            credentials: "include"
-        }).then(res=>{
-        if(res.status === 401){
-            throw "Not authorized"
-        }else{
-            return res.json()
-        }
-    })
+export async function removeFromFavs(itemId, navigate){
+    return await customFetch(
+        "http://localhost:3001/favs", 
+        "PUT",
+        {
+            _id: itemId,
+            toAdd: false,
+        },
+        navigate
+    )
 }

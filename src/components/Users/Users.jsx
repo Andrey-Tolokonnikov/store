@@ -5,15 +5,18 @@ import {useSelector, useDispatch} from "react-redux"
 import { useEffect } from "react"
 import {setUsers} from "./../../store/UsersSlice"
 import {getUsers as getUsersAPI} from "./../../APIHandlers/UsersAPI"
+import { useNavigate } from "react-router-dom"
 
 export default function Users(){
     const users = useSelector(state=>state.users.usersList)
-
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(()=>{
         async function getSetUsers(){
-            const users = await getUsersAPI()
-            dispatch(setUsers(users))
+            const users = await getUsersAPI(navigate)
+            if(users != null){
+                dispatch(setUsers(users))
+            }
         }
         getSetUsers()
     },

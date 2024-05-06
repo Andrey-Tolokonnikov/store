@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { getCatalogue as getCatalogueAPI } from "./../../../APIHandlers/CatalogueAPI"
 import { setCatalogue} from "../../../store/CatalogueSlice"
+import { Link } from "react-router-dom"
 
 export default function Catalogue() {
     let goods = useSelector(state => state.catalogue.items)
@@ -29,7 +30,7 @@ export default function Catalogue() {
             <div className={styles.itemsWrapper}>
                 {goods.map(good => <Item key={good._id} good={good} />)}
             </div>
-            <div className={styles.linkContainer}><a className={styles.link}>Смотреть все <FontAwesomeIcon icon={faArrowRight} /></a></div>
+            <div className={styles.linkContainer}><Link to="/catalogue" className={styles.link}>Смотреть все <FontAwesomeIcon icon={faArrowRight} /></Link></div>
         </div>
     )
 }

@@ -9,7 +9,6 @@ exports.authFilter = function(req, res, next){
 	try{
 		const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
 		req.body.user = decoded
-		
 	} catch(err){
 		res.sendStatus(401)
 		return

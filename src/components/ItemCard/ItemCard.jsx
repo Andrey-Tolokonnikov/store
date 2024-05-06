@@ -7,10 +7,11 @@ import {addToCart as addToCartAPI, removeOneFromCart as removeOneFromCartAPI} fr
 import { addToFavs as addToFavsAPI, removeFromFavs as removeFromFavsAPI } from "./../../APIHandlers/FavsAPI"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useSelector, useDispatch } from "react-redux"
-import { useParams, Link} from "react-router-dom"
+import { useParams, Link, useNavigate} from "react-router-dom"
 
 export default function ItemCard() {
     const params = useParams()
+    const navigate = useNavigate()
     const catalogue = useSelector(state => state.catalogue.items)
     const cart = useSelector(state => state.profile.cart)
     const favs = useSelector(state=>state.profile.favs)
@@ -23,23 +24,33 @@ export default function ItemCard() {
     const dispatch = useDispatch()
 
     const addToCart = async function(itemId){
-        const resultCart = await addToCartAPI(itemId)
-        dispatch(setCart({cart:resultCart}))
+        const resultCart = await addToCartAPI(itemId, navigate)
+        if(resultCart != null){
+            dispatch(setCart({cart:resultCart}))
+        }
     }
 
     const removeOneFromCart = async function(itemId){
-        const resultCart = await removeOneFromCartAPI(itemId)
-        dispatch(setCart({cart:resultCart}))
+        const resultCart = await removeOneFromCartAPI(itemId, navigate)
+        if(resultCart != null){
+            dispatch(setCart({cart:resultCart}))
+        }
     }
 
     const addToFavs = async function(itemId){
-        const resultFavs = await addToFavsAPI(itemId)
-        dispatch(setFavs(resultFavs))
+        const resultFavs = await addToFavsAPI(itemId, navigate)
+        if(resultFavs != null){
+            dispatch(setFavs(resultFavs))
+        }
     }
+
     const removeFromFavs = async function(itemId){
-        const resultFavs = await removeFromFavsAPI(itemId)
-        dispatch(setFavs(resultFavs))
+        const resultFavs = await removeFromFavsAPI(itemId, navigate)
+        if(resultFavs != null){
+            dispatch(setFavs(resultFavs))
+        }
     }
+
     return (
         <div className={styles.container}>
             <img className={styles.img} src={item.img ?? defImg} />
