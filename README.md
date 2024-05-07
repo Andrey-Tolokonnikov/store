@@ -5,7 +5,7 @@ Project uses mongodb as it's database, therefore you should install it, then con
 
 For now some features not implemented yet (such as users registration). Because of it you'll have to make initial query to DB
 <details>
-	<summary>Query<summary/>
+	<summary>Query</summary>
 	[{
   "_id": {
     "$oid": "660dc2504d8b3e545e9b4f9d"
