@@ -7,3 +7,11 @@
     font-size: 25px;
     margin-bottom: 20px;
 }
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+.addButton{
+    font-size: 25px;
+    cursor: pointer;
+}

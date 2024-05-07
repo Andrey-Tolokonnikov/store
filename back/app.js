@@ -1,11 +1,13 @@
 const express = require("express")
-const mongo = require("./mongo.js")
+const mongo = require("./DAO/mongo.js")
+const {saveImageFromBase64} = require("./fsHandlers/ImageHandler.js")
 const cookie = require("cookie-parser")
 const cors = require("cors")
 const jwt = require("jsonwebtoken")
 const {authFilter} = require("./filters/authFilter.js")
 const {adminFilter} = require("./filters/adminFilter.js")
 const bodyParser = require("body-parser")
+
 require("dotenv").config()
 
 const app = express()
@@ -16,7 +18,7 @@ app.use(cors({origin: process.env.CLIENT_URL,
 	credentials: true}))
 
 app.use(cookie())
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: "10mb"}))
 app.use(express.static(process.env.PUBLIC_DIR))
 app.use(authFilter)
 
@@ -62,7 +64,37 @@ app.get("/catalogue", async (req, res)=>{
 
 app.put("/catalogue", async (req, res)=>{
 	const editedItem = req.body.item
+	let imgRef = null
+	if(editedItem.img){
+		imgRef = saveImageFromBase64(editedItem.img)
+		editedItem.imgRef = process.env.SERVER_URL + "/"+ imgRef
+		delete editedItem.img
+	}
+
 	await DAO.updateCatalogue(editedItem)
+	const result = await DAO.getCatalogue()
+	res.json(result)
+})
+
+app.post("/catalogue", async (req, res)=>{
+	const newItem = req.body.item
+	let imgRef = null
+	if(newItem.img){
+		imgRef = saveImageFromBase64(newItem.img)
+	}
+
+	newItem.imgRef = imgRef && process.env.SERVER_URL + "/"+ imgRef
+	delete newItem.img
+
+	await DAO.addToCatalogue(newItem)
+	const result = await DAO.getCatalogue()
+	res.json(result)
+})
+
+app.delete("/catalogue", async (req, res)=>{
+	const itemID = req.body._id
+
+	await DAO.deleteFromCatalogue(itemID)
 	const result = await DAO.getCatalogue()
 	res.json(result)
 })

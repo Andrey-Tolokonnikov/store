@@ -29,7 +29,7 @@
     padding: 10px;
     border: 1px solid black;
     text-align: center;
-    width: 70px;
+    display: inline-block;
     margin-bottom: 15px;
 }
 .descHeader {

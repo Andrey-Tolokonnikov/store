@@ -14,3 +14,22 @@ export async function updateCatalogue(editedItem, navigate){
     )
 }
 
+export async function addToCatalogue(newItem, navigate){
+    return await customFetch("http://localhost:3001/catalogue",
+        "POST",
+        {
+            item: newItem
+        },
+        navigate
+    )
+}
+export async function deleteFromCatalogue(itemID, navigate){
+    return await customFetch("http://localhost:3001/catalogue",
+        "DELETE",
+        {
+            _id: itemID
+        },
+        navigate
+    )
+}
+

@@ -16,20 +16,40 @@ module.exports = class DAO{
 
 	async getCatalogue(){
 		const collection = this.db.collection("catalogue")
-		const result = await collection.find({}).toArray()
+		const result = await collection.find({}).sort({_id: -1}).toArray()
 		return result
 	}
 
 	async updateCatalogue(editedItem){
 		const collection = this.db.collection("catalogue")
+		const itemToSend = {title: editedItem.title,
+			config: editedItem.config,
+			price: editedItem.price,
+			desc: editedItem.desc}
+		if(editedItem.imgRef != undefined){
+			itemToSend.img = editedItem.imgRef
+		}
 		const result = await collection.updateOne(
 			{_id: ObjectId.createFromHexString(editedItem._id)},
-			{$set: { 
-				title: editedItem.title,
-				config: editedItem.config,
-				price: editedItem.price,
-				desc: editedItem.desc
-			}})
+			{$set: itemToSend})
+		return result
+	}
+
+	async addToCatalogue(newItem){
+		const collection = this.db.collection("catalogue")
+		const result = await collection.insertOne({ 
+			title: newItem.title,
+			config: newItem.config,
+			price: newItem.price,
+			desc: newItem.desc,
+			img: newItem.imgRef
+		})
+		return result
+	}
+	async deleteFromCatalogue(itemID){
+		const id = ObjectId.createFromHexString(itemID)
+		const collection = this.db.collection("catalogue")
+		const result = await collection.deleteOne({_id: id})
 		return result
 	}
 	
