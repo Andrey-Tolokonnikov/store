@@ -7,6 +7,7 @@ To manage users you'll have to init DB with at least 1 admin (here he has passwo
 <details>
 	<summary>Query<summary/>
   To simplify testing of the application, this query in addition to admin contains moder's data.
+	<summary>Query</summary>
 	[{
   "_id": {
     "$oid": "6647b46bc5558e2a808f8f87"
