@@ -1,11 +1,13 @@
 import styles from "./Auth.module.css"
 import {useState} from "react"
 import {useDispatch, useSelector } from "react-redux"
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import Cookies from "js-cookie"
+
 
 import { setName, setRole, setLoginState, setCart, setFavs } from "../../../store/ProfileSlice"
 import {setUsers} from "./../../../store/UsersSlice"
+
 export default function Auth() {
     let [login, setLogin] = useState("")
     let [password, setPassword] = useState("")
@@ -14,9 +16,8 @@ export default function Auth() {
     const user = useSelector(state=>state.profile)
     const navigate = useNavigate()
 
-    function authAttempt(event, login, password) {
+    async function authAttempt(event, login, password) {
         event.preventDefault()
-        
         fetch("http://localhost:3001/auth", {
             "method": "POST",
             credentials: "include",
@@ -45,7 +46,8 @@ export default function Auth() {
             })
             .catch(error=>{
                 setErrorText(error)
-            })
+            }
+            )
     }
 
     function logout(){
@@ -77,6 +79,7 @@ export default function Auth() {
                     <button type="submit" className={styles.button}>
                     Войти
                     </button>
+                    <Link to="/registration">Впервые на нашем сайте? Зарегистрируйтесь</Link>
                
                 </form>:<><h3>Здравствуйте, {user.name}!</h3>
                     <button className={styles.button} onClick={logout}>

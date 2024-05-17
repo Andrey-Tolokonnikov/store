@@ -53,9 +53,9 @@ module.exports = class DAO{
 		return result
 	}
 	
-	async getUser(login, password){
+	async getUserWithPassword(login){
 		const collection = this.db.collection("users")
-		const result = await collection.findOne({login: login, password: password})
+		let result = await collection.findOne({login: login})
 		return result
 	}
 
@@ -85,7 +85,7 @@ module.exports = class DAO{
 	async getUserByLogin(login){
 		const collection = this.db.collection("users")
 		const user = await collection.findOne({login: login})
-		return (
+		return user && (
 			{login: user.login,
 				_id: user._id,
 				name: user.name,
@@ -94,6 +94,18 @@ module.exports = class DAO{
 				cart: user.cart,
 				favs: user.favorites}
 		)
+	}
+
+	async registrate({name, login, password}){
+		const collection = this.db.collection("users")
+		
+		const result = await collection.insertOne({name: name, 
+			login: login, 
+			password: password,
+			role: "user",
+			cart: [],
+			favs: []})
+		return result
 	}
 
 	async setUserBlocked(userID, toBlock){

@@ -41,7 +41,7 @@ export default function Item(props) {
             dispatch(setFavs(resultFavs))
         }
     }
-    
+
     const removeFromFavs = async function(itemId){
         const resultFavs = await removeFromFavsAPI(itemId, navigate)
         if(resultFavs != null){
@@ -89,10 +89,8 @@ export default function Item(props) {
                             </svg>
                         </>
                     }
-                </div> 
-                     
+                </div>  
                 {profile.role === "moder"?"":<FontAwesomeIcon icon={faTrash} onClick={() => dispatch(clearItem(props.item))} />}
-
             </div>
         </div>
     )

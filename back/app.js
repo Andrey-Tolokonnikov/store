@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken")
 const {authFilter} = require("./filters/authFilter.js")
 const {adminFilter} = require("./filters/adminFilter.js")
 const bodyParser = require("body-parser")
+const bcrypt = require("bcrypt")
 
 require("dotenv").config()
 
@@ -25,35 +26,87 @@ app.use(authFilter)
 
 
 app.post("/auth", async(req, res)=>{
-	const user = await DAO.getUser(req.body.login, req.body.password)
-	if(!user){
-		res.sendStatus(401)
-	}
-	if(user.isBlocked){
-		res.sendStatus(403)
-	}
-	else{
-		res.cookie(process.env.TOKEN_NAME, 
-			jwt.sign({
-				login: user.login, 
-				role: user.role
-			},
-
-			process.env.TOKEN_SECRET, 
-			
-			{
-				expiresIn: 60 * 60 * 24, 
-				algorithm: process.env.TOKEN_ALGORITHM
+	const user = await DAO.getUserWithPassword(req.body.login)
+	bcrypt
+		.compare(req.body.password, user.password)
+		.then(hashRes => {
+			if(!hashRes || !user){
+				res.sendStatus(401)
+			}else if(user.isBlocked){
+				res.sendStatus(403)
+			} else{
+				res.cookie(process.env.TOKEN_NAME, 
+					jwt.sign({
+						login: user.login, 
+						role: user.role
+					},
+		
+					process.env.TOKEN_SECRET, 
+					
+					{
+						expiresIn: 60 * 60 * 24, 
+						algorithm: process.env.TOKEN_ALGORITHM
+					}
+					))
+				res.json({
+					login: user.login,
+					_id: user._id,
+					name: user.name,
+					role: user.role,
+					cart: user.cart,
+					favorites: user.favorites
+				})
 			}
-			))
-		res.json({
-			login: user.login,
-			_id: user._id,
-			name: user.name,
-			role: user.role,
-			cart: user.cart,
-			favorites: user.favorites
 		})
+
+	
+	// if(!user){
+	// 	res.sendStatus(401)
+	// }else if(user.isBlocked){
+	// 	res.sendStatus(403)
+	// }
+	// else{
+	// 	res.cookie(process.env.TOKEN_NAME, 
+	// 		jwt.sign({
+	// 			login: user.login, 
+	// 			role: user.role
+	// 		},
+
+	// 		process.env.TOKEN_SECRET, 
+			
+	// 		{
+	// 			expiresIn: 60 * 60 * 24, 
+	// 			algorithm: process.env.TOKEN_ALGORITHM
+	// 		}
+	// 		))
+	// 	res.json({
+	// 		login: user.login,
+	// 		_id: user._id,
+	// 		name: user.name,
+	// 		role: user.role,
+	// 		cart: user.cart,
+	// 		favorites: user.favorites
+	// 	})
+	// }
+})
+
+app.post("/registration", async (req, res)=>{
+	const user = await DAO.getUserByLogin(req.body.login)
+	if(user){
+		res.sendStatus(401)
+		return
+	} else{
+		let password = req.body.password
+
+		password = await bcrypt
+			.genSalt(+process.env.PASSWORD_SALT_ROUNDS)
+			.then(salt => {
+				return bcrypt.hash(password, salt)
+			})
+
+		await DAO.registrate({...req.body, password})
+		res.sendStatus(201)
+		return
 	}
 })
 

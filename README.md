@@ -3,64 +3,33 @@ To launch this project you have to activate it's server side firstly. To do it, 
 After that run `npm start` at project root directory to launch client react SPA.
 Project uses mongodb as it's database, therefore you should install it, then configure .env file in the `back` directory to match your DB.
 
-For now some features not implemented yet (such as users registration). Because of it you'll have to make initial query to DB
+To manage users you'll have to init DB with at least 1 admin (here he has password "password"). Password change isn't supported yet, but you still can registrate yourself as a client and upgrade your role to admin via initial admin rights.
 <details>
 	<summary>Query<summary/>
+  To simplify testing of the application, this query in addition to admin contains moder's data.
 	[{
   "_id": {
-    "$oid": "660dc2504d8b3e545e9b4f9d"
+    "$oid": "6647b46bc5558e2a808f8f87"
   },
-  "login": "login1",
-  "password": "password1",
   "name": "John",
-  "cart": [
-    {
-      "_id": {
-        "$oid": "65f9d90aa00f8e2cb985798e"
-      },
-      "num": 7
-    },
-    {
-      "_id": {
-        "$oid": "65f9df13a00f8e2cb9857992"
-      },
-      "num": 4
-    }
-  ],
-  "favorites": [
-    {
-      "$oid": "65f9d90aa00f8e2cb985798e"
-    }
-  ],
+  "login": "loginadmin",
+  "password": "$2b$10$.Y0reNDq5t9rhgg0lQzlKe9fFafAARCTszEDxKv7PkCBye8D9AWze",
   "role": "admin",
-  "isBlocked": false
+  "cart": [],
+  "favs": []
 },
 {
   "_id": {
-    "$oid": "6627679968e53919d644594b"
+    "$oid": "6647b4ecc5558e2a808f8f88"
   },
-  "cart": [
-    {
-      "_id": {
-        "$oid": "65f9d90aa00f8e2cb985798e"
-      },
-      "num": 3
-    },
-    {
-      "_id": {
-        "$oid": "65f9df13a00f8e2cb9857992"
-      },
-      "num": 1
-    }
-  ],
-  "favorites": [],
-  "login": "login2",
-  "name": "Peter",
-  "password": "password2",
+  "name": "Fedor",
+  "login": "loginmoder",
+  "password": "$2b$10$sq9GOBpqKX47oo09/2zevecRePC.PLkesEqWzxmGt/TtI.WCHuUw2",
   "role": "moder",
+  "cart": [],
+  "favs": [],
   "isBlocked": false
 }]	
 </details>
-Password are stored directly, but later i will replace it with hashes
 
 

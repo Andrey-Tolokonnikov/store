@@ -13,6 +13,7 @@ import { getMe } from "./APIHandlers/UsersAPI"
 import { useEffect } from "react"
 import { setCart, setFavs, setLoginState, setName, setRole} from "./store/ProfileSlice"
 import { useDispatch } from "react-redux"
+import Registration from "./components/Profile/Registration/Registration"
 
 function App() {
     const dispatch = useDispatch()
@@ -27,11 +28,7 @@ function App() {
                 dispatch(setRole(me.role))
             }
         }
-        try{
-            getSetMe()}
-        catch(err){
-            console.error(err)
-        }
+        getSetMe()
     },[])
     return (
         
@@ -42,6 +39,7 @@ function App() {
                 <Route path='/cart' element={<Cart />} />
                 <Route path='/ItemCard/:ItemID' element={<ItemCard />} />
                 <Route path='/auth' element={<Auth />} />
+                <Route path='/registration' element={<Registration />} />
                 <Route path='/users' element={<Users />} />
                 <Route path='/catalogue' element={<Catalogue />} />
             </Routes>

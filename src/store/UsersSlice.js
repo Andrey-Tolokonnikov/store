@@ -9,7 +9,6 @@ const UsersSlice = createSlice({
     initialState,
     reducers: {
         setUsers(state, action){
-            console.log("users")
             state.usersList = action.payload
         }
     }
