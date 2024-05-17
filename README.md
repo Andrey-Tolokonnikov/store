@@ -5,8 +5,7 @@ Project uses mongodb as it's database, therefore you should install it, then con
 
 To manage users you'll have to init DB with at least 1 admin (here he has password "password"). Password change isn't supported yet, but you still can registrate yourself as a client and upgrade your role to admin via initial admin rights.
 <details>
-	<summary>Query<summary/>
-  To simplify testing of the application, this query in addition to admin contains moder's data.
+  To simplify testing of the application, this query in addition to admin contains moder's data.</br>
 	<summary>Query</summary>
 	[{
   "_id": {
