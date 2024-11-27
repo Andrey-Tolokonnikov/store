@@ -1,17 +1,14 @@
 import styles from "./Registration.module.css"
 import {useState} from "react"
-//import {useSelector } from "react-redux"
-import {useNavigate} from "react-router-dom"
-//import Cookies from "js-cookie"
 
-//import { setName, setRole, setLoginState, setCart} from "../../../store/ProfileSlice"
-//import {setUsers} from "./../../../store/UsersSlice"
+import {useNavigate} from "react-router-dom"
+
 export default function Registration() {
     let [login, setLogin] = useState("")
     let [password, setPassword] = useState("")
     let [errorText, setErrorText] = useState("")
     let [name, setName] = useState("")
-    //const user = useSelector(state=>state.profile)
+    
     const navigate = useNavigate()
 
     function registrate(event, login, password) {
@@ -47,7 +44,7 @@ export default function Registration() {
                 </p>
 
                 <p className={styles.title}>
-                        Телефон или Email
+                        Логин
                 </p>
                 <input className={styles.input} required name="login" value={login} onChange={event => setLogin(event.target.value)} ></input>
                 <p className={styles.title}>

@@ -6,14 +6,14 @@
     margin-bottom: 25px;
 }
 
-    .item img {
-        height: 100%;
-    }
+.item img {
+    height: 100%;
+}
 
 .description {
     display: flex;
 }
-.edit{
+.edit {
     font-size: 25px;
     cursor: pointer;
     margin-left: 290px;
@@ -28,62 +28,73 @@
 .specs {
     margin-top: 10px;
 }
-.specs:focus-visible{
+.specs:focus-visible {
     outline: none;
 }
 .price {
     margin-top: 25px;
 }
-.price:focus-visible{
+.price:focus-visible {
     outline: none;
 }
 .title {
-    
     font-size: 20px;
 }
-.title:focus-visible{
+.title:focus-visible {
     outline: none;
 }
 .actions {
     display: flex;
-
+    gap: 5px;
     width: 300px;
     flex-direction: column;
-    margin-bottom: 10px;
 }
-    .actions > div {
-        font-size: 20px;
-    }
-    .confirm{
-        display: block;
-        background-color: white;
-        color: rgb(0, 9, 60);
-        border: 2px solid rgb(27, 136, 45);
-        width: 140px;
-        padding: 10px;
-        cursor: pointer;
-        transition: 0.2s;
-        margin-bottom: 10px;
-    }
-    .confirm:hover{
-        background-color:rgb(27, 136, 45);
-        color: white;
-    }
+.actions > div {
+    font-size: 20px;
+}
+.confirm {
+    display: block;
+    background-color: white;
+    color: rgb(0, 9, 60);
+    border: 2px solid rgb(27, 136, 45);
+    width: 140px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.confirm:hover {
+    background-color: rgb(27, 136, 45);
+    color: white;
+}
 
-    .cancel{
-        display: block;
-        background-color: white;
-        color: rgb(67, 0, 0);
-        border: 2px solid rgb(210, 0, 0);
-        width: 140px;
-        padding: 10px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-    .cancel:hover{
-        background-color:rgb(210, 0, 0);
-        color: white;
-    }
+.cancel {
+    display: block;
+    background-color: white;
+    color: rgb(67, 0, 0);
+    border: 2px solid rgb(210, 0, 0);
+    width: 140px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.cancel:hover {
+    background-color: rgb(210, 0, 0);
+    color: white;
+}
+.neutral {
+    display: block;
+    background-color: white;
+    color: rgb(97, 97, 97);
+    border: 2px solid rgb(97, 97, 97);
+    width: 140px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.neutral:hover {
+    background-color: rgb(97, 97, 97);
+    color: white;
+}
 
 .wrapper {
     display: flex;

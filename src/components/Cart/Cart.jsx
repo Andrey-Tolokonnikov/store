@@ -1,19 +1,49 @@
 import styles from "./Cart.module.css"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { addOrder as addOrderAPI } from "../../APIHandlers/OrdersAPI"
 
 import Item from "./Item/Item"
 import Recommends from "./Recommends/Recommends"
+import { useNavigate } from "react-router-dom"
+import { clearCart as clearCartAPI} from "../../APIHandlers/CartAPI"
+import { setCart } from "../../store/ProfileSlice"
+import { setOrders } from "../../store/OrdersSlice"
+import { useEffect } from "react"
 
 
 export default function Cart() {
     const cartItems = useSelector(state => state.profile.cart)
     const catalogueItems = useSelector(state => state.catalogue.items)
+    const profileID = useSelector(state => state.profile._id)
+
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        if(!profileID){
+            navigate("/auth")
+        }
+    }, [])
+    
+    const dispatch = useDispatch()
 
     const cartSize = cartItems.reduce((acc, item) => acc + item.num, 0)
     const cartPrice = cartItems.reduce((acc, item) => acc + catalogueItems.find(catItem=>catItem._id===item._id).price*item.num, 0)
 
     const favs = useSelector(state => state.profile.favs)
     const favItems = catalogueItems.filter(item=>favs.includes(item._id))
+
+    async function checkout(){
+        const orders = await addOrderAPI(cartItems, profileID, navigate)
+        const cart = await clearCartAPI(navigate)
+
+        if(cart != null){
+            dispatch(setCart({cart:cart}))
+        }
+        if(orders != null){
+            dispatch(setOrders(orders))
+        }
+        navigate("/")
+    }
     return (<>
         <div className={styles.container}>
             <div className={styles.list}>
@@ -55,7 +85,7 @@ export default function Cart() {
                             { cartPrice.toLocaleString() + " руб."}
                         </div>
                     </div>
-                    <button className={styles.checkoutButton}>Оформить заказ</button>
+                    <button className={styles.checkoutButton} onClick={checkout}>Оформить заказ</button>
                 </div>
             </div>
         </div>

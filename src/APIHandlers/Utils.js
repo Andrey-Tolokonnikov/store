@@ -15,7 +15,7 @@ export async function customFetch(href, method = "GET", body, navigate = null){
     try{
         return await checkResForErrors(
             fetch(
-                href, 
+                "http://localhost:3001/" + href, 
                 {   method: method,
                     headers: {
                         "Content-Type": "application/json"
@@ -27,7 +27,6 @@ export async function customFetch(href, method = "GET", body, navigate = null){
         )
     } catch(err){
         if(navigate != null){
-            console.error(err)
             navigate("/auth")
         }
         return null

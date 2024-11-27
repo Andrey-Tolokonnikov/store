@@ -2,7 +2,7 @@ import { customFetch } from "./Utils"
 
 export async function addToCart(itemId, navigate){
     return await customFetch(
-        "http://localhost:3001/cart", 
+        "cart", 
         "PUT", 
         {
             _id: itemId,
@@ -13,12 +13,20 @@ export async function addToCart(itemId, navigate){
 }
 export async function removeOneFromCart(itemId, navigate){
     return await customFetch(
-        "http://localhost:3001/cart", 
+        "cart", 
         "PUT", 
         {
             _id: itemId,
             toAdd: false,
         },
+        navigate
+    )
+}
+
+export async function clearCart(navigate){
+    return await customFetch(
+        "cart", 
+        "DELETE", 
         navigate
     )
 }

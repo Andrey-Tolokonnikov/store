@@ -5,8 +5,9 @@ import {Link, useNavigate} from "react-router-dom"
 import Cookies from "js-cookie"
 
 
-import { setName, setRole, setLoginState, setCart, setFavs } from "../../../store/ProfileSlice"
+import { setName, setRole, setLoginState, setCart, setFavs, setID } from "../../../store/ProfileSlice"
 import {setUsers} from "./../../../store/UsersSlice"
+import { setOrders } from "../../../store/OrdersSlice"
 
 export default function Auth() {
     let [login, setLogin] = useState("")
@@ -40,8 +41,10 @@ export default function Auth() {
                 setErrorText("")
                 dispatch(setLoginState(res.login))
                 dispatch(setName(res.name))
-                dispatch(setCart({cart: res.cart}))
+                dispatch(setCart({cart: res.cart?res.cart:[]}))
                 dispatch(setRole(res.role))
+                dispatch(setFavs(res.favs?res.favs:[]))
+                dispatch(setID(res._id))
                 navigate("/")
             })
             .catch(error=>{
@@ -57,6 +60,8 @@ export default function Auth() {
         dispatch(setRole(""))
         dispatch(setFavs([]))
         dispatch(setUsers([]))
+        dispatch(setOrders([]))
+        dispatch(setID(""))
         Cookies.remove("storeToken")
     }   
     
@@ -68,7 +73,7 @@ export default function Auth() {
                 Вход в кабинет покупателя
                     </p>
                     <p className={styles.title}>
-                Телефон или Email
+                Логин
                     </p>
                     <input className={styles.input} required name="login" value={login} onChange={event => setLogin(event.target.value)} ></input>
                     <p className={styles.title}>

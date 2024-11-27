@@ -1,11 +1,11 @@
-exports.adminFilter = function(req, res, next){
-	const role = req.body.user.role
-	console.log(req.body)
-	if(role === "admin"){
-		next()
-		return
-	}else{
-		res.sendStatus(403)
-		return
-	}
-}
+exports.roleFilter = function(role){
+	return function(req, res, next){
+		const reqRole = req.body.user.role
+		if(role === reqRole){
+			next()
+			return
+		}else{
+			res.sendStatus(403)
+			return
+		}
+	}}

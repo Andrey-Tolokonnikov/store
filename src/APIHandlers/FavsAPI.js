@@ -1,7 +1,7 @@
 import { customFetch } from "./Utils"
 export async function addToFavs(itemId, navigate){
     return await customFetch(
-        "http://localhost:3001/favs", 
+        "favs", 
         "PUT",
         {
             _id: itemId,
@@ -12,7 +12,7 @@ export async function addToFavs(itemId, navigate){
 }
 export async function removeFromFavs(itemId, navigate){
     return await customFetch(
-        "http://localhost:3001/favs", 
+        "favs", 
         "PUT",
         {
             _id: itemId,

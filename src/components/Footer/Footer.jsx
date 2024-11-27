@@ -1,6 +1,7 @@
 import styles from "./Footer.module.css"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+// eslint-disable-next-line no-unused-vars
 import {faSearch, faUser, faChartBar, faCartArrowDown } from "@fortawesome/free-solid-svg-icons"
 
 export default function Footer() {
@@ -12,9 +13,9 @@ export default function Footer() {
             </div>
             <div className={styles.logo}>Store</div>
             <div className={styles.icons}>
-                <FontAwesomeIcon icon={faSearch} size="xl"/>
+                {/* <FontAwesomeIcon icon={faSearch} size="xl"/> */}
                 <FontAwesomeIcon icon={faUser} size="xl" />
-                <FontAwesomeIcon icon={faChartBar} size="xl" />
+                {/* <FontAwesomeIcon icon={faChartBar} size="xl" /> */}
                 <FontAwesomeIcon icon={faCartArrowDown} size="xl" />
             </div>
         </footer>

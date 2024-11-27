@@ -40,7 +40,7 @@ export default function Item({good}) {
     let quantity = items.find(item => item._id === good._id)?.num ?? 0
     return <div className={styles.item}>
         <img alt={good.title} src={good.img ?? defImg} className={styles.img} />
-        <Link className={styles.link} to={`/ItemCard/${good.id}`}>{good.title}</Link>
+        <Link className={styles.link} to={`/ItemCard/${good._id}`}>{good.title}</Link>
         <div className={styles.buyBlock}>
             <div className={styles.price}>{good.price.toLocaleString()}</div>
             <div className={styles.cart} onClick={() => { addToCart(good._id)}}>

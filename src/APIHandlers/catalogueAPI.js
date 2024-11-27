@@ -1,13 +1,23 @@
 import {customFetch} from "./Utils"
 
 export async function getCatalogue(){
-    const result = await customFetch("http://localhost:3001/catalogue")
+    const result = await customFetch("catalogue")
     
     return result
 }
 
+export async function getRecommendations(){
+    const result = await customFetch("recommendations")
+    return result
+}
+
+export async function getItem(id){
+    const result = await customFetch(`catalogue/${id}`)
+    return result
+}
+
 export async function updateCatalogue(editedItem, navigate){
-    return await customFetch("http://localhost:3001/catalogue",
+    return await customFetch("catalogue",
         "PUT",
         {item: editedItem},
         navigate
@@ -15,7 +25,7 @@ export async function updateCatalogue(editedItem, navigate){
 }
 
 export async function addToCatalogue(newItem, navigate){
-    return await customFetch("http://localhost:3001/catalogue",
+    return await customFetch("catalogue",
         "POST",
         {
             item: newItem
@@ -24,7 +34,7 @@ export async function addToCatalogue(newItem, navigate){
     )
 }
 export async function deleteFromCatalogue(itemID, navigate){
-    return await customFetch("http://localhost:3001/catalogue",
+    return await customFetch("catalogue",
         "DELETE",
         {
             _id: itemID

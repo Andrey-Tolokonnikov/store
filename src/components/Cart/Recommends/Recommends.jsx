@@ -3,7 +3,7 @@ import styles from "./Recommends.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons"
 
-import {Component, createRef} from "react"
+import { Component, createRef } from "react"
 import Item from "./../../MainPage/Catalogue/Item/Item"
 export default class Recommends extends Component {
     constructor(props) {
@@ -31,13 +31,21 @@ export default class Recommends extends Component {
                 <div className={styles.sliderText}>
                     <div>Может заинтересовать</div>
                     <div className={styles.arrows}>
-                        <FontAwesomeIcon icon={faArrowLeft} onClick={this.rotateBackward.bind(this)} />
-                        <FontAwesomeIcon icon={faArrowRight} onClick={this.rotateForward.bind(this)} />
+                        <FontAwesomeIcon
+                            icon={faArrowLeft}
+                            onClick={this.rotateBackward.bind(this)}
+                        />
+                        <FontAwesomeIcon
+                            icon={faArrowRight}
+                            onClick={this.rotateForward.bind(this)}
+                        />
                     </div>
                 </div>
-                <div  className={styles.slider}>
+                <div className={styles.slider}>
                     <div ref={this.slider} className={styles.wrapper}>
-                        {this.props.favItems.map(item => <Item key={item.id} good={item} />)}
+                        {this.props.favItems.map((item) => (
+                            <Item key={item._id} good={item} />
+                        ))}
                     </div>
                 </div>
             </div>

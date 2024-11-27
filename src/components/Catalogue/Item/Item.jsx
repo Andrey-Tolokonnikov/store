@@ -6,7 +6,7 @@ import { addToCart as addToCartAPI, removeOneFromCart as removeOneFromCartAPI} f
 import {setCart, clearItem, setFavs } from "../../../store/ProfileSlice"
 import { addToFavs as addToFavsAPI, removeFromFavs as removeFromFavsAPI } from "../../../APIHandlers/FavsAPI"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { faEdit } from "@fortawesome/free-regular-svg-icons"
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash"
 import {setCatalogue } from "../../../store/CatalogueSlice"
@@ -62,7 +62,7 @@ export default function Item(props) {
                 <img src={props.item.img ?? defImg}></img>
 
                 <div className={ styles.text}>
-                    <p className={styles.title}>{props.item.title}</p>
+                    <Link className={styles.link} to={`/ItemCard/${props.item._id}`}>{props.item.title}</Link>
                     <p className={styles.specs}>{props.item.specs}</p>
                     <p className={styles.price}>{props.item.price.toLocaleString() + " руб/шт"}</p>
                 </div>
@@ -80,7 +80,7 @@ export default function Item(props) {
                                 {props.quantity}
                                 <div className={styles.plus} onClick={() => addToCart(props.item._id)}>+</div>
                             </div>
-                            <div className={styles.totalPrice}>{(props.item.price * props.quantity).toLocaleString() + " Р"}</div>
+                            
                             <svg className={favs.includes(props.item._id) ? [styles.heartActive, styles.heart].join(" ") : styles.heart} viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
                                 <rect width="100%" height="100%" />
                                 <g onClick={() => {favs.includes(props.item._id)?removeFromFavs(props.item._id):addToFavs(props.item._id)}}>

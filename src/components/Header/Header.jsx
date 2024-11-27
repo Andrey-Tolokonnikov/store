@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBars, faSearch, faUser, faChartBar, faCartArrowDown, faUsers, faBoxes } from "@fortawesome/fontawesome-free-solid"
+// eslint-disable-next-line no-unused-vars
+import { faBars, faSearch, faUser, faChartBar, faCartArrowDown, faUsers, faBoxes, faClipboardList } from "@fortawesome/fontawesome-free-solid"
 
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
@@ -13,29 +14,36 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <div>
-                <FontAwesomeIcon icon={faBars} size="xl" /> Menu</div>
+                {/* <FontAwesomeIcon icon={faBars} size="xl" /> Menu */}
+                Computer<br/>
+                Components
+            </div>
             <Link to='/'>
                 <div className={styles.logo}>Store</div>
             </Link>
             <div className={styles.icons}>
                 {
                     userRole==="admin"?
-                        <Link to="users">
-                            <FontAwesomeIcon icon={faUsers} size="xl" />
-                        </Link>:
+                        <>
+                            <Link to="users">
+                                <FontAwesomeIcon icon={faUsers} size="xl" />
+                            </Link>
+                        </>:
                         userRole==="moder"?
                             <Link to="catalogue">
                                 <FontAwesomeIcon icon={faBoxes} size="xl" />
                             </Link>
                             :""
                 }
-                
-                <FontAwesomeIcon icon={faSearch} size="xl" />
+                <Link to="orders">
+                    <FontAwesomeIcon icon={faClipboardList} size="xl" />
+                </Link>
+                {/* <FontAwesomeIcon icon={faSearch} size="xl" /> */}
                 <Link to="auth">
                     <FontAwesomeIcon icon={faUser} size="xl" />
                 </Link>
                 
-                <FontAwesomeIcon icon={faChartBar} size="xl" />
+                {/* <FontAwesomeIcon icon={faChartBar} size="xl" /> */}
                 <Link to="cart">
                     <FontAwesomeIcon icon={faCartArrowDown} size="xl" />
                 </Link>

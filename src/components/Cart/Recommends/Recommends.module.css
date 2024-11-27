@@ -13,28 +13,27 @@
 
 .arrows {
     color: grey;
-
 }
 
-    .arrows svg {
-        margin-left: 10px;
-        cursor: pointer;
-    }
-    .arrows > *:hover{
-        color: black;
-    }
+.arrows svg {
+    margin-left: 10px;
+    cursor: pointer;
+}
+.arrows > *:hover {
+    color: black;
+}
 .slider {
     width: 100%;
     overflow-x: hidden;
 }
-    .wrapper > * {
-        flex-shrink: 0;
-        margin: 0 10px;
-        width: 23%;
-    }
+.wrapper > * {
+    flex-shrink: 0;
+    margin: 0 10px;
+    width: 23%;
+}
 .wrapper {
     display: flex;
     flex-wrap: nowrap;
-    transition: .5s;
+    transition: 0.5s;
     transform: translateX(-10px);
 }

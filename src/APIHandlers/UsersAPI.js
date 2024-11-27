@@ -1,12 +1,12 @@
 import {customFetch} from "./Utils"
 
 export async function getUsers(){
-    return await customFetch("http://localhost:3001/users")
+    return await customFetch("users")
 }
 
 export async function setUserBlocked(userID, toBlock){
     return await customFetch(
-        "http://localhost:3001/users", 
+        "users", 
         "PUT",
         {
             _id: userID,
@@ -18,7 +18,7 @@ export async function setUserBlocked(userID, toBlock){
 
 export async function setUserRole(userID, role){
     return await customFetch(
-        "http://localhost:3001/users", 
+        "users", 
         "PUT",
         {
             _id: userID,
@@ -28,5 +28,5 @@ export async function setUserRole(userID, role){
     )
 }
 export async function getMe(){
-    return await customFetch("http://localhost:3001/users/me")
+    return await customFetch("users/me")
 }

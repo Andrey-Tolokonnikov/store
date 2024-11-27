@@ -5,6 +5,7 @@
     margin: 0 auto;
     align-items: flex-start;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 .img {
     width: 50%;
@@ -122,8 +123,26 @@
     fill: black;
 }
 
-
-
 .heart > rect {
     fill: transparent;
+}
+.reviews{
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.reviewsTitle{
+    font-size: 25px;
+}
+.reviewsHeader{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.button{
+    display: block;
+    background-color: rgb(0, 9, 60);
+    color: white;
+    padding: 10px;
+    cursor: pointer;
 }
