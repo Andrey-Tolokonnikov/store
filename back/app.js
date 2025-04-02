@@ -12,7 +12,7 @@ const bcrypt = require("bcrypt")
 require("dotenv").config()
 
 const app = express()
-
+console.log(process.env)
 let DAO = new mongo(process.env.DB_URL)
 
 app.use(cors({origin: process.env.CLIENT_URL,
@@ -84,14 +84,19 @@ app.post("/registration", async (req, res)=>{
 	}
 })
 app.get("/recommendations", async (req, res) => {
+	try{
+		const token = req.cookies[process.env.TOKEN_NAME]
+		const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+		req.body.user = decoded
+	} catch(e){
+		console.log(e)
+	}
 	const login = req.body.user?.login
-
 	if (!login) {
 		const catalogue = await DAO.getCatalogue()
 		res.json(catalogue)
 		return
 	}
-
 	try {
 		const recommendations = await DAO.getRecommendations(login)
 		res.json(recommendations)
@@ -106,7 +111,7 @@ app.get("/catalogue", async (req, res)=>{
 })
 
 app.get("/catalogue/:itemId", async (req, res)=>{
-	const result = await DAO.getItem(req.params.itemId, req.body.user.login)
+	const result = await DAO.getItem(req.params.itemId, req.body.user?.login)
 	res.json(result)
 })
 
@@ -165,6 +170,16 @@ app.delete("/cart", async (req, res)=>{
 	res.json(cart)
 })
 
+app.get("/report", roleFilter("admin"), async (req, res) => {
+	try {
+		const reportData = await DAO.generateSalesReport()
+		res.json(reportData)
+	} catch (error) {
+		console.error("Error generating report:", error)
+		res.status(500).json({ message: "Error generating report" })
+	}
+})
+  
 app.put("/favs", async (req, res)=>{
 	const itemID = req.body._id
 	const addMode = req.body.toAdd
@@ -280,7 +295,30 @@ app.get("/users/me", async (req, res)=>{
 	const user = await DAO.getUserByLogin(login)
 	res.json(user)
 })
+// Добавить в routes после app.get("/catalogue/:itemId", ...)
+app.post("/catalogue/:itemId/reviews", async (req, res) => {
+	try {
+		const token = req.cookies[process.env.TOKEN_NAME]
+		const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+		const user = await DAO.getUserByLogin(decoded.login)
 
+		const review = {
+			user: user._id,
+			text: req.body.text,
+			rating: req.body.rating,
+			date: new Date().toISOString()
+		}
+
+		const item = await DAO.addReviewToItem(
+			req.params.itemId,
+			review
+		)
+		res.json(item)
+	} catch (error) {
+		console.error("Error adding review:", error)
+		res.status(500).json({ message: "Error adding review" })
+	}
+})
 app.listen(process.env.PORT, () => {
 	DAO.connect()
 })

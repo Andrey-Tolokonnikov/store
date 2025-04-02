@@ -8,8 +8,9 @@ import { addToFavs as addToFavsAPI, removeFromFavs as removeFromFavsAPI } from "
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useSelector, useDispatch } from "react-redux"
 import { useParams, Link, useNavigate} from "react-router-dom"
-import {getItem as getItemAPI} from "../../APIHandlers/CatalogueAPI"
+import {addReview, getItem as getItemAPI} from "../../APIHandlers/CatalogueAPI"
 import Review from "./Review/Review"
+import { faStar } from "@fortawesome/free-solid-svg-icons"
 
 export default function ItemCard() {
     const params = useParams()
@@ -19,6 +20,31 @@ export default function ItemCard() {
     const favs = useSelector(state=>state.profile.favs)
 
     const [item, setItem] = useState(null)
+
+
+    const [newReviewText, setNewReviewText] = useState("")
+    const [newReviewRating, setNewReviewRating] = useState(0)
+    const user = useSelector(state => state.profile.role)
+
+    console.log(user)
+    const submitReview = async () => {
+        if (!user) {
+            navigate("/login")
+            return
+        }
+  
+        try {
+            const response = await addReview(params.ItemID, newReviewText, newReviewRating, navigate)
+            console.log(response)
+            const updatedItem = await getItemAPI(params.ItemID)
+            setItem(updatedItem)
+            setNewReviewText("")
+            setNewReviewRating(0)
+        
+        } catch (error) {
+            console.error("Error submitting review:", error)
+        }
+    }
 
     useEffect(()=>{
         async function getItem(){
@@ -99,7 +125,40 @@ export default function ItemCard() {
                     </div>
                 </div>
             </div>
+            
             <div className={styles.reviews}>
+                <div className={styles.reviewForm}>
+                    <h3>Оставить отзыв</h3>
+                    {user ? (
+                        <>
+                            <div className={styles.ratingStars}>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <FontAwesomeIcon
+                                        key={star}
+                                        icon={faStar}
+                                        className={star <= newReviewRating ? styles.starActive : styles.star}
+                                        onClick={() => setNewReviewRating(star)}
+                                    />
+                                ))}
+                            </div>
+                            <textarea
+                                value={newReviewText}
+                                onChange={(e) => setNewReviewText(e.target.value)}
+                                placeholder="Ваш отзыв..."
+                                className={styles.reviewTextarea}
+                            />
+                            <button 
+                                onClick={submitReview}
+                                disabled={newReviewText.length < 5 || newReviewRating === 0}
+                                className={styles.submitReviewButton}
+                            >
+        Отправить отзыв
+                            </button>
+                        </>
+                    ) : (
+                        <p>Войдите, чтобы оставить отзыв</p>
+                    )}
+                </div>
 
                 <div className={styles.reviewsTitle}>
                     Отзывы:

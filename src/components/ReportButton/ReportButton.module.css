@@ -1,0 +1,21 @@
+/* ReportButton.module.css */
+.reportButton {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .reportButton:hover {
+    background-color: #c0392b;
+  }
+  
+  .reportButton svg {
+    font-size: 1.2em;
+  }

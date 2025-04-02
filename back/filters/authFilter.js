@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken")
 
 exports.authFilter = function(req, res, next){
-	if(["/catalogue", "/auth", "/registration"].includes(req.path)){
+	console.log(req.path)
+	if(["/catalogue", "/auth", "/registration", "/recommendations"].some(item=>req.path.startsWith(item))){
 		next()
 		return
 	}

@@ -32,7 +32,6 @@ module.exports = class DAO {
 
 	async getRecommendations(login) {
 		const user = await this.getUserByLogin(login)
-		console.log(user)
 		if (!user) {
 			throw new Error("User not found")
 		}
@@ -56,49 +55,81 @@ module.exports = class DAO {
 			)
 			return bScore - aScore
 		}
-		//console.log(catalogue)
-		console.log(categoryCounts)
 		const sortedCatalogue = catalogue.sort(sortCatalogue)
-		//console.log(sortedCatalogue)
+
 		return sortedCatalogue.slice(0, 8)
 	}
 	
 	async getItem(itemId, userLogin) {
-		console.log("hello")
+
 		const collection = this.db.collection("catalogue")
 		const result = await collection.findOne({ _id: ObjectId.createFromHexString(itemId) })
+		
+		if (result.reviews) {
+			for (let i = 0; i < result.reviews.length; i++) {
+				result.reviews[i].user = await this.getUserByID(result.reviews[i].user)
+			}
+		}
 		if (!userLogin) {
-			return result // Если пользователь не авторизован, возвращаем только товар
+			return result
 		}
 	
 		const userCollection = this.db.collection("users")
 		const user = await userCollection.findOne({ login: userLogin })
 	
 		if (!user) {
-			return result // Если пользователь не найден, возвращаем только товар
+			return result
 		}
 	
-		const itemCategories = result.categories || [] // Категории товара
-		const maxQueueLength = 10 // Максимальная длина очереди
+		const itemCategories = result.categories || []
+		const maxQueueLength = 10 
 	
-		// Если поле favCategories отсутствует, инициализируем его
 		user.favCategories = user.favCategories || []
 	
-		// Добавляем категории товара в очередь
 		user.favCategories.push(...itemCategories)
 	
-		// Если длина превышает 10, обрезаем лишние элементы
 		if (user.favCategories.length > maxQueueLength) {
 			user.favCategories = user.favCategories.slice(-maxQueueLength)
 		}
 	
-		// Сохраняем обновленного пользователя в базе
 		await userCollection.updateOne(
 			{ login: userLogin },
 			{ $set: { favCategories: user.favCategories } }
 		)
 	
 		return result
+	}
+
+
+	// DAO.js
+	async generateSalesReport() {
+		const catalogue = await this.getCatalogue()
+		const users = await this.db.collection("users").find().toArray()
+		const orders = await this.db.collection("orders").find().toArray()
+  
+		const report = await Promise.all(catalogue.map(async item => {
+			const sold = orders.reduce((acc, order) => {
+				const itemInOrder = order.cart.find(i => i._id.equals(item._id))
+				return acc + (itemInOrder?.num || 0)
+			}, 0)
+  
+			const inCarts = users.filter(user => 
+				user.cart.some(cartItem => cartItem._id.equals(item._id))
+			).length
+  
+			const inFavorites = users.filter(user => 
+				user.favorites?.some(favId => favId.equals(item._id))
+			).length
+			return {
+				title: item.title,
+				sold,
+				inCarts,
+				inFavorites,
+				price: item.price
+			}
+		}))
+  
+		return report
 	}
 
 	async updateCatalogue(editedItem) {
@@ -364,5 +395,16 @@ module.exports = class DAO {
 			{ $set: { status: status } },
 		)
 		return result
+	}
+	async addReviewToItem(itemId, review) {
+		const collection = this.db.collection("catalogue")
+		const itemObjectId = ObjectId.createFromHexString(itemId)
+		
+		await collection.updateOne(
+			{ _id: itemObjectId },
+			{ $push: { reviews: review } }
+		)
+		
+		return this.getItem(itemId) // Возвращаем обновленный товар
 	}
 }

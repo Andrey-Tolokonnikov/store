@@ -23,12 +23,31 @@ export async function updateCatalogue(editedItem, navigate){
         navigate
     )
 }
+export async function generateReport(navigate) {
+    return await customFetch(
+        "report",
+        "GET",
+        null,
+        navigate
+    )
+}
 
 export async function addToCatalogue(newItem, navigate){
     return await customFetch("catalogue",
         "POST",
         {
             item: newItem
+        },
+        navigate
+    )
+}
+
+export async function addReview(itemId, text, rating, navigate){
+    return await customFetch(`catalogue/${itemId}/reviews`,
+        "POST",
+        {
+            text: text,
+            rating: rating,
         },
         navigate
     )
