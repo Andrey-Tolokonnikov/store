@@ -23,9 +23,18 @@ export async function updateCatalogue(editedItem, navigate){
         navigate
     )
 }
-export async function generateReport(navigate) {
+export async function generateReport(navigate, dateRange=null) {
+
+    let params = ""
+    if(dateRange){
+        params = new URLSearchParams({
+            startDate: dateRange.startDate,
+            endDate: dateRange.endDate
+        })
+    }
+    
     return await customFetch(
-        "report",
+        "report" + `?${params.toString()}`,
         "GET",
         null,
         navigate

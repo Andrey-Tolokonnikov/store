@@ -3,6 +3,7 @@
     height: 140px;
     display: flex;
     justify-content: space-between;
+    gap: 10px;
     margin-bottom: 25px;
 }
 
@@ -24,6 +25,7 @@
     grid-template-columns: 150px 250px;
     grid-template-rows: repeat(3, 1fr);
     align-items: center;
+    row-gap: 10px;
 }
 .specs {
     margin-top: 10px;

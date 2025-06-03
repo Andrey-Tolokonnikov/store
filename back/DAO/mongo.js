@@ -102,10 +102,21 @@ module.exports = class DAO {
 
 
 	// DAO.js
-	async generateSalesReport() {
+	async generateSalesReport({ startDate, endDate } = {}) {
 		const catalogue = await this.getCatalogue()
 		const users = await this.db.collection("users").find().toArray()
-		const orders = await this.db.collection("orders").find().toArray()
+
+		// Добавляем фильтрацию по дате для заказов
+		let ordersQuery = {}
+		if (startDate || endDate) {
+			ordersQuery.date = {}
+			if (startDate) ordersQuery.date.$gte = startDate
+			if (endDate) ordersQuery.date.$lte = endDate
+		}
+  
+		const orders = await this.db.collection("orders")
+			.find(ordersQuery)
+			.toArray()
   
 		const report = await Promise.all(catalogue.map(async item => {
 			const sold = orders.reduce((acc, order) => {

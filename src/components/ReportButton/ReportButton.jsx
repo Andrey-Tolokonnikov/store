@@ -1,82 +1,166 @@
-// components/ReportButton.js
-import { jsPDF } from "jspdf"
-import autoTable from "jspdf-autotable"
-import "jspdf-autotable"
+import { Document, Paragraph, TextRun, HeadingLevel, Packer } from "docx"
+import { saveAs } from "file-saver"
 import { useSelector } from "react-redux"
-import { faFilePdf } from "@fortawesome/free-solid-svg-icons"
+import { faFileWord } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import styles from "./ReportButton.module.css"
 import { generateReport } from "../../APIHandlers/CatalogueAPI"
+import { TableCell, Table, TableRow } from "docx"
+import { WidthType } from "docx"
+import { useState } from "react"
+import { DateRangeModal } from "../DateRangeModel/DateRangeModal"
 
 export default function ReportButton() {
     const user = useSelector(state => state.profile.user)
 
-    const handleGenerateReport = async () => {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [dateRange, setDateRange] = useState(null)
+
+    const handleGenerateReport = () => {
+        setIsModalOpen(true)
+    }
+
+    const handleApplyDateRange = async (range) => {
+        setDateRange(range)
         try {
-            const reportData = await generateReport()
-            console.log(reportData)
-            createPDF(reportData)
+            const reportData = await generateReport(range)
+            createDocx(reportData, range)
         } catch (error) {
             console.error("Error generating report:", error)
         }
     }
 
-    const createPDF = (data) => {
-        const doc = new jsPDF()
-        
-        // Заголовок
-        doc.setFontSize(18)
-        doc.text("Sell Report", 14, 22)
-        doc.setFontSize(12)
-        doc.text(`Formation date: ${new Date().toLocaleDateString()}`, 14, 28)
-      
+    // const handleGenerateReport = async () => {
+    //     try {
+    //         const reportData = await generateReport()
+    //         createDocx(reportData)
+    //     } catch (error) {
+    //         console.error("Error generating report:", error)
+    //     }
+    // }
+
+    const createDocx = async (data, range) => {
         // Подготовка данных для таблицы
-        const tableData = data.map(item => [
-            item.title,
-            item.sold,
-            item.inCarts,
-            item.inFavorites,
-            `${(item.sold * item.price).toString()} RUB.`
+        const tableRows = data.map(item => [
+            new Paragraph({
+                children: [new TextRun({ text: item.title, size: 22 })],
+            }),
+            new Paragraph({
+                children: [new TextRun({ text: item.sold.toString(), size: 22 })],
+                alignment: "right"
+            }),
+            new Paragraph({
+                children: [new TextRun({ text: item.inCarts.toString(), size: 22 })],
+                alignment: "right"
+            }),
+            new Paragraph({
+                children: [new TextRun({ text: item.inFavorites.toString(), size: 22 })],
+                alignment: "right"
+            }),
+            new Paragraph({
+                children: [new TextRun({ 
+                    text: `${(item.sold * item.price).toLocaleString("ru-RU")} RUB.`, 
+                    size: 22 
+                })],
+                alignment: "right"
+            })
         ])
-      
-        // Генерация таблицы с использованием autoTable
-        autoTable(doc, {
-            startY: 35,
-            head: [["Item", "Selled", "In cart", "In favs", "Money"]],
-            body: tableData,
-            theme: "grid",
-            styles: { fontSize: 10 },
-            headStyles: { 
-                fillColor: [41, 128, 185],
-                textColor: 255,
-                fontStyle: "bold"
-            },
-            columnStyles: {
-                0: { cellWidth: 60 },
-                4: { cellWidth: 40 }
-            }
-        })
-      
-        // Итоги
+
+        // Итоговые значения
         const totalSold = data.reduce((acc, item) => acc + item.sold, 0)
         const totalRevenue = data.reduce((acc, item) => acc + (item.sold * item.price), 0)
-        const finalY = doc.lastAutoTable.finalY || 35
-      
-        doc.setFontSize(12)
-        doc.text(`Selled: ${totalSold} things.`, 14, finalY + 10)
-        doc.text(`Total Sum: ${totalRevenue.toLocaleString()} RUB.`, 14, finalY + 16)
-      
-        doc.save(`sales-report-${new Date().toISOString().slice(0,10)}.pdf`)
+
+        // Создание документа
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: [
+                    new Paragraph({
+                        text: "Отчёт по продажам",
+                        heading: HeadingLevel.HEADING_1,
+                        alignment: "center",
+                        spacing: { after: 400 }
+                    }),
+                    new Paragraph({
+                        text: `Дата формирования: ${new Date().toLocaleDateString()}`,
+                        alignment: "center",
+                        spacing: { after: 400 }
+                    }),
+                    new Paragraph({
+                        text: `Период совершения заказов: ${new Date(range.startDate).toLocaleDateString()}-${new Date(range.endDate).toLocaleDateString()}`,
+                        alignment: "center",
+                        spacing: { after: 400 }
+                    }),
+                    new Paragraph({
+                        text: "Данные по продажам",
+                        heading: HeadingLevel.HEADING_2,
+                        spacing: { after: 200 }
+                    }),
+                    // Таблица
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            // Заголовки таблицы
+                            new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph("Товар")] }),
+                                    new TableCell({ children: [new Paragraph("Продано")] }),
+                                    new TableCell({ children: [new Paragraph("В корзинах")] }),
+                                    new TableCell({ children: [new Paragraph("В избранном")] }),
+                                    new TableCell({ children: [new Paragraph("Сумма")] }),
+                                ],
+                                tableHeader: true
+                            }),
+                            // Данные таблицы
+                            ...data.map(item => new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph(item.title)] }),
+                                    new TableCell({ children: [new Paragraph(item.sold.toString())] }),
+                                    new TableCell({ children: [new Paragraph(item.inCarts.toString())] }),
+                                    new TableCell({ children: [new Paragraph(item.inFavorites.toString())] }),
+                                    new TableCell({ 
+                                        children: [new Paragraph(
+                                            `${(item.sold * item.price).toLocaleString("ru-RU")} RUB.`
+                                        )] 
+                                    }),
+                                ]
+                            }))
+                        ]
+                    }),
+                    // Итоги
+                    new Paragraph({
+                        text: `Количество проданного товара: ${totalSold}`,
+                        spacing: { before: 400, after: 100 }
+                    }),
+                    new Paragraph({
+                        text: `Общая сумма продаж: ${totalRevenue.toLocaleString("ru-RU")} руб.`,
+                        spacing: { after: 400 }
+                    })
+                ]
+            }]
+        })
+
+        // Генерация и сохранение файла
+        const blob = await Packer.toBlob(doc)
+        saveAs(blob, `sales-report-${new Date().toISOString().slice(0,10)}.docx`)
     }
 
     return (
-        <button 
-            className={styles.reportButton} 
-            onClick={handleGenerateReport}
-            aria-label="Сформировать отчет в PDF"
-        >
-            <FontAwesomeIcon icon={faFilePdf} />
-            <span>Экспорт отчета</span>
-        </button>
+        <>
+            <button 
+                className={styles.reportButton} 
+                onClick={handleGenerateReport}
+                aria-label="Generate report in Word"
+            >
+                <FontAwesomeIcon icon={faFileWord} />
+                <span>Сгенерировать отчёт</span>
+            
+            </button>
+            <DateRangeModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onApply={handleApplyDateRange}
+            />
+        </>
     )
 }

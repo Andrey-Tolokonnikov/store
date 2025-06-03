@@ -170,9 +170,14 @@ app.delete("/cart", async (req, res)=>{
 	res.json(cart)
 })
 
+// server.js
 app.get("/report", roleFilter("admin"), async (req, res) => {
 	try {
-		const reportData = await DAO.generateSalesReport()
+		const { startDate, endDate } = req.query
+		const reportData = await DAO.generateSalesReport({
+			startDate: startDate ? new Date(startDate) : null,
+			endDate: endDate ? new Date(endDate) : null
+		}) 
 		res.json(reportData)
 	} catch (error) {
 		console.error("Error generating report:", error)

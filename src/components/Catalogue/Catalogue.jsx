@@ -103,7 +103,7 @@ export default function Catalogue() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <ReportButton/>
+                
                 <p className={styles.title}>Каталог товаров:</p>
                 {profile.role === "moder" && (
                     <div>

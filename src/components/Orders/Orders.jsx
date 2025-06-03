@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { setOrders } from "../../store/OrdersSlice"
+import ReportButton from "../ReportButton/ReportButton"
 
 export default function Orders(){
     const orders = useSelector(state=>state.orders.items)
@@ -37,6 +38,7 @@ export default function Orders(){
     return (
         <div className={styles.container}>
             <div className={styles.header}>
+                {userRole == "admin" && <ReportButton/>}
                 <p className={styles.title}>Перечень заказов:</p>
             </div>
             {orders.map(item=>
